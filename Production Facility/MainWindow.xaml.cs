@@ -34,7 +34,7 @@ namespace Production_Facility
         {
             InitializeComponent();
             DataContext = new ViewModelNavigator();
-            tempDG.ItemsSource = context.Recipes.ToList();
+
         }
     }
 }
