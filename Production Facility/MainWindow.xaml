@@ -74,7 +74,7 @@
 
         </TreeView>
         <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding SelectedViewModel}"/>
-        <!--<DataGrid Name="tempDG" Grid.Column="1" Grid.Row="1"/>-->
+        <DataGrid Name="tempDG" Grid.Column="1" Grid.Row="1"/>
     </Grid>
 
 </Window>
