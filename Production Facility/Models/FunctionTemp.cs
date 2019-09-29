@@ -62,7 +62,7 @@ namespace Production_Facility.Models
                 cutLine = line.Split('\t');
                 string number = cutLine[0];
 
-                if (context.Items.Any(xx=>xx.Number == number))
+                if (context.Items.Any(xx => xx.Number == number))
                 {
                     StockItem sItem = new StockItem(cutLine[0], cutLine[1], cutLine[2], cutLine[3],
                             cutLine[4], cutLine[5], cutLine[6], cutLine[8], cutLine[7]);
@@ -85,7 +85,7 @@ namespace Production_Facility.Models
                 cutLine = line.Split('\t');
                 string number = cutLine[0];
 
-                if (!bazaDanych.ContainsKey(cutLine[0]) && !context.Items.Any(xx=>xx.Number==number))
+                if (!bazaDanych.ContainsKey(cutLine[0]) && !context.Items.Any(xx => xx.Number == number))
                 {
                     if (cutLine[0].Contains("W-") && cutLine[0].Length > 13)
                     {
@@ -138,7 +138,7 @@ namespace Production_Facility.Models
                 cutLine = line.Split('\t');
                 string number = cutLine[0];
 
-                if(context.Recipes.Any(xx => xx.RecipeOwner == number))
+                if (context.Recipes.Any(xx => xx.RecipeOwner == number))
                 {
                     if (!bazaReceptur.ContainsKey(cutLine[0]))
                     {
@@ -147,7 +147,7 @@ namespace Production_Facility.Models
                         if (cutLine[1] == "Struktura recepturowa")
                         {
 
-                            nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], double.Parse(cutLine[7]));
+                            nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[7]));
                             nowaReceptura.ItemRecipe.Add(nowaReceptura.recipeLine);
 
                             bazaReceptur.Add(cutLine[0], nowaReceptura);
@@ -155,7 +155,7 @@ namespace Production_Facility.Models
 
                         else
                         {
-                            nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], double.Parse(cutLine[4]));
+                            nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[4]));
                             nowaReceptura.ItemRecipe.Add(nowaReceptura.recipeLine);
 
                             bazaReceptur.Add(cutLine[0], nowaReceptura);
@@ -165,11 +165,11 @@ namespace Production_Facility.Models
                     {
                         if (cutLine[1] == "Struktura recepturowa")
                         {
-                            bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], double.Parse(cutLine[7])));
+                            bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[7])));
                         }
                         else
                         {
-                            bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], double.Parse(cutLine[4])));
+                            bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[4])));
                         }
                     }
                 }
@@ -177,20 +177,20 @@ namespace Production_Facility.Models
                 {
                     MessageBox.Show("wtf");
                 }
-                
+
             }
 
-            //foreach(KeyValuePair<string,Recipe> pozycja in bazaReceptur)
-            //{
-            //    StringBuilder sb = new StringBuilder();
+            foreach (KeyValuePair<string, Recipe> pozycja in bazaReceptur)
+            {
+                StringBuilder sb = new StringBuilder();
 
-            //    foreach(Recipe.RecipeLine line in pozycja.Value.ItemRecipe)
-            //    {
-            //        sb.Append(line.RecipeLine_Nr.ToString() + '=' + line.RecipeLine_Key + '=' + line.RecipeLine_Amount.ToString() + '|');
-            //    }
-            //    sb.Remove(sb.Length - 1, 1);
-            //    pozycja.Value.RecipeComposition = sb.ToString();
-            //}
+                foreach (Recipe.RecipeLine line in pozycja.Value.ItemRecipe)
+                {
+                    sb.Append(line.RecipeLine_Nr.ToString() + '=' + line.RecipeLine_Key + '=' + line.RecipeLine_Name + '=' + line.RecipeLine_Amount.ToString() + '|');
+                }
+                sb.Remove(sb.Length - 1, 1);
+                pozycja.Value.RecipeComposition = sb.ToString();
+            }
 
             //WYCIĘTE Z MAIN WINDOW (OPERACJE NA TABELI RECIPE
 
@@ -211,7 +211,8 @@ namespace Production_Facility.Models
 
             //}
             //context.SaveChanges();
-        }
+            //}
 
+        }
     }
 }

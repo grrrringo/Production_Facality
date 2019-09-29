@@ -66,8 +66,8 @@ namespace Production_Facility.ViewModels
 
                 foreach (string str in temp)
                 {
-                    string[] temp2 = str.Split('=');
-                    Recipe.RecipeLine newRecipeLine = new Recipe.RecipeLine(int.Parse(temp2[0]), temp2[1], double.Parse(temp2[2]));
+                    string[] cut = str.Split('=');
+                    Recipe.RecipeLine newRecipeLine = new Recipe.RecipeLine(int.Parse(cut[0]), cut[1], cut[2], double.Parse(cut[3]));
 
                     lista.Add(newRecipeLine);
                 }

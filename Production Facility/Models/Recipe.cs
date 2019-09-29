@@ -36,12 +36,14 @@ namespace Production_Facility.Models
         {
             public int RecipeLine_Nr { get; set; }
             public string RecipeLine_Key { get; set; }
+            public string RecipeLine_Name { get; set; }
             public double RecipeLine_Amount { get; set; }
 
-            public RecipeLine(int line_nr, string key, double amount)
+            public RecipeLine(int line_nr, string key, string name, double amount)
             {
                 this.RecipeLine_Nr = line_nr;
                 this.RecipeLine_Key = key;
+                this.RecipeLine_Name = name;
                 this.RecipeLine_Amount = amount;
             }
         }
