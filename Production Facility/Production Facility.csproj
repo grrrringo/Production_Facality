@@ -83,6 +83,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
+    <Compile Include="ViewModels\Converters\MultiBidingConverter.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\RecipeViewModel.cs" />
     <Compile Include="ViewModels\StockItemViewModel.cs" />

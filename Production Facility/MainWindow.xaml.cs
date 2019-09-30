@@ -36,6 +36,9 @@ namespace Production_Facility
             InitializeComponent();
             DataContext = new ViewModelNavigator();
 
+            
+
+
             //ft.RecipeReader(bazaReceptur, context);
 
 
