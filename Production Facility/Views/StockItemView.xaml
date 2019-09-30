@@ -5,26 +5,96 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Production_Facility.Views"
              xmlns:vm="clr-namespace:Production_Facility.ViewModels"
+             xmlns:models="clr-namespace:Production_Facility.Models"
+             xmlns:converters="clr-namespace:Production_Facility.ViewModels.Converters"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
         <vm:StockItemViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="enumSectionType" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:SectionType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="enumUnitType" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:UnitType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converters:MultiBidingConverter x:Key="multiBidingConverter" />
+    </UserControl.Resources>
 
     <Border Margin="10" BorderBrush="Black" BorderThickness="3" CornerRadius="10" >
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10" FontSize="20" Text="{Binding Name}" Foreground="Blue" FontWeight="Bold"/>
-            <Button Grid.Row="1"  Content="ODŚWIEŻ" Width="100" HorizontalAlignment="Left" Margin="10" FontWeight="Bold" Command="{Binding DataGridLoader}"/>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding StockItems}" Margin="10" AutoGenerateColumns="true"  >
-                <DataGrid.Columns>
+            <WrapPanel Orientation="Horizontal" Grid.Row="1" >
+                <GroupBox Header="Section" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <ComboBox Name="sectionComboBox" ItemsSource="{Binding Source={StaticResource enumSectionType}}" Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Unit" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200" >
+                    <ComboBox Name="unitComboBox" ItemsSource="{Binding Source={StaticResource enumUnitType}}" Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Key" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="keyTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Name" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="nameTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="locationTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Batch" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="batchTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Quantity Total" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="qTotalTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Quantity Reserved" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="qReservedTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Quantity Available" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="qAvailableTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Unit Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="uCostTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Total Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                    <TextBox Name="tCostTextBox"  Margin="5,2"/>
+                </GroupBox>
+            </WrapPanel>
+
+            <Button Grid.Row="2"  Content="ODŚWIEŻ" Width="100" HorizontalAlignment="Left" Margin="10" FontWeight="Bold" Command="{Binding DataGridLoader}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource multiBidingConverter}">
+                        <Binding Path="Text" ElementName="sectionComboBox"/>
+                        <Binding Path="Text" ElementName="unitComboBox"/>
+                        <Binding Path="Text" ElementName="keyTextBox"/>
+                        <Binding Path="Text" ElementName="nameTextBox"/>
+                        <Binding Path="Text" ElementName="locationTextBox"/>
+                        <Binding Path="Text" ElementName="batchTextBox"/>
+                        <Binding Path="Text" ElementName="qTotalTextBox"/>
+                        <Binding Path="Text" ElementName="qReservedTextBox"/>
+                        <Binding Path="Text" ElementName="qAvailableTextBox"/>
+                        <Binding Path="Text" ElementName="uCostTextBox"/>
+                        <Binding Path="Text" ElementName="tCostTextBox"/>
+
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <DataGrid Grid.Row="3" ItemsSource="{Binding StockItems}" Margin="10" AutoGenerateColumns="true"  />
+            <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="Last Action Date" FontWeight="Bold" Binding="{Binding LastActionDate,StringFormat={}{0:yyyy-MM-dd hh:mm}}"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                </DataGrid.Columns>-->
+
         </Grid>
     </Border>
 </UserControl>

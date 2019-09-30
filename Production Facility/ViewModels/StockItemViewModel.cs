@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Production_Facility.ViewModels
@@ -34,7 +35,273 @@ namespace Production_Facility.ViewModels
 
         public void SetStockItems(object obj)
         {
-            StockItems = dbContext.StockItems.Take(20).ToList();
+            var values = (object[])obj;
+
+            var section = (string)values[0];
+            switch (section)
+            {
+                case ("Product"):
+                    section = "0";
+                    break;
+                case ("Intermediate"):
+                    section = "1";
+                    break;
+                case ("Substance"):
+                    section = "2";
+                    break;
+                case ("Article"):
+                    section = "3";
+                    break;
+                default:
+                    section = "";
+                    break;
+            }
+
+            var unit = (string)values[1];
+            switch (unit)
+            {
+                case ("szt"):
+                    unit = "0";
+                    break;
+                case ("kg"):
+                    unit = "1";
+                    break;
+                case ("m"):
+                    unit = "2";
+                    break;
+                default:
+                    unit = "";
+                    break;
+            }
+            var key = (string)values[2];
+            var name = (string)values[3];
+            var location = (string)values[4];
+            var batch = (string)values[5];
+            var qTotal = (string)values[6];
+            var qReserved = (string)values[7];
+            var qAvailable = (string)values[8];
+            var uCost = (string)values[9];
+            var tCost = (string)values[10];
+
+
+            var queryBuilder = new StringBuilder();
+            queryBuilder.Append("SELECT * FROM StockItems ");
+
+            bool isBuildingStarted = false;
+
+            for (int i = 0; i < values.Count(); i++)
+            {
+
+                if (!string.IsNullOrEmpty(values[i].ToString()))
+                    switch (i)
+                    {
+                        case (0):
+                            queryBuilder.Append("WHERE Section LIKE '%" + section + "%'");
+                            isBuildingStarted = true;
+                            break;
+                        case (1):
+                            if (!isBuildingStarted)
+                            {
+                                queryBuilder.Append("WHERE Unit LIKE '%" + unit + "%'");
+                                isBuildingStarted = true;
+                            }
+                            else
+                            {
+                                queryBuilder.Append(" AND Unit LIKE '%" + unit + "%'");
+                            }
+                            break;
+                        case (2):
+                            if (!isBuildingStarted)
+                            {
+                                queryBuilder.Append("WHERE Number LIKE '%" + key + "%'");
+                                isBuildingStarted = true;
+                            }
+                            else
+                            {
+                                queryBuilder.Append(" AND Number LIKE '%" + key + "%'");
+                            }
+                            break;
+                        case (3):
+                            if (!isBuildingStarted)
+                            {
+                                queryBuilder.Append("WHERE Name LIKE '%" + name + "%'");
+                            }
+                            else
+                            {
+                                queryBuilder.Append(" AND Name LIKE '%" + name + "%'");
+                            }
+                            break;
+                        case (4):
+                            if (!isBuildingStarted)
+                            {
+                                queryBuilder.Append("WHERE Location LIKE '%" + location + "%'");
+                                isBuildingStarted = true;
+                            }
+                            else
+                            {
+                                queryBuilder.Append(" AND Location LIKE '%" + location + "%'");
+                            }
+                            break;
+                        case (5):
+                            if (!isBuildingStarted)
+                            {
+                                queryBuilder.Append("WHERE BatchNumber LIKE '%" + batch + "%'");
+                                isBuildingStarted = true;
+                            }
+                            else
+                            {
+                                queryBuilder.Append(" AND BatchNumber LIKE '%" + batch + "%'");
+                            }
+                            break;
+                        case (6):
+                            if (!qTotal.Contains('-'))
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE QuantityTotal = " + qTotal + "");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND QuantityTotal = " + qTotal + "");
+                                }
+                            }
+                            else
+                            {
+                                string[] qTotalCut = qTotal.Split('-');
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE QuantityTotal BETWEEN " + qTotalCut[0] + " AND " + qTotalCut[1] + " ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND QuantityTotal BETWEEN " + qTotalCut[0] + " AND " + qTotalCut[1] + " ");
+                                }
+                            }
+
+                            break;
+                        case (7):
+                            if (!qReserved.Contains('-'))
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE QuantityReserved = " + qReserved + "");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND QuantityReserved = " + qReserved + "");
+                                }
+                            }
+                            else
+                            {
+                                string[] qReservedCut = qReserved.Split('-');
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE QuantityReserved BETWEEN " + qReservedCut[0] + " AND " + qReservedCut[1] + " ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND QuantityReserved BETWEEN " + qReservedCut[0] + " AND " + qReservedCut[1] + " ");
+                                }
+                            }
+                            break;
+                        case (8):
+                            if (!qAvailable.Contains('-'))
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE QuantityAvailable = " + qAvailable + "");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND QuantityAvailable = " + qAvailable + "");
+                                }
+                            }
+                            else
+                            {
+                                string[] qAvailableCut = qAvailable.Split('-');
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE QuantityAvailable BETWEEN " + qAvailableCut[0] + " AND " + qAvailableCut[1] + " ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND QuantityAvailable BETWEEN " + qAvailableCut[0] + " AND " + qAvailableCut[1] + " ");
+                                }
+                            }
+                            break;
+                        case (9):
+                            if (!uCost.Contains('-'))
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE UnitCost = " + uCost + "");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND UnitCost = " + uCost + "");
+                                }
+                            }
+                            else
+                            {
+                                string[] uCostCut = uCost.Split('-');
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE UnitCost BETWEEN " + uCostCut[0] + " AND " + uCostCut[1] + " ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND UnitCost BETWEEN " + uCostCut[0] + " AND " + uCostCut[1] + " ");
+                                }
+                            }
+                            break;
+                        case (10):
+                            if (!tCost.Contains('-'))
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE TotalCost = " + tCost + "");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND TotalCost = " + tCost + "");
+                                }
+                            }
+                            else
+                            {
+                                string[] tCostCut = tCost.Split('-');
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE TotalCost BETWEEN " + tCostCut[0] + " AND " + tCostCut[1] + " ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND TotalCost BETWEEN " + tCostCut[0] + " AND " + tCostCut[1] + " ");
+                                }
+                            }
+                            break;
+                    }
+            }
+
+            string s = queryBuilder.ToString();
+            //MessageBox.Show(s);
+            var stockItems = dbContext.StockItems.SqlQuery(s).ToList();
+
+            StockItems = stockItems;
         }
 
         private List<StockItem> stockItems;
@@ -56,7 +323,6 @@ namespace Production_Facility.ViewModels
             {
                 stockItems = value;
                 OnPropertyChanged("StockItems");
-
             }
 
         }
