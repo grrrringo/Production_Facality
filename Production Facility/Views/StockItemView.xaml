@@ -37,38 +37,56 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10" FontSize="20" Text="{Binding Name}" Foreground="Blue" FontWeight="Bold"/>
             <WrapPanel Orientation="Horizontal" Grid.Row="1" >
-                <GroupBox Header="Section" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Section" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <ComboBox Name="sectionComboBox" ItemsSource="{Binding Source={StaticResource enumSectionType}}" Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Unit" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200" >
+                <GroupBox Header="Unit" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" >
                     <ComboBox Name="unitComboBox" ItemsSource="{Binding Source={StaticResource enumUnitType}}" Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Key" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Key" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="keyTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Name" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Name" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="nameTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="locationTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Batch" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Batch" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="batchTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Quantity Total" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Quantity Total" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="qTotalTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Quantity Reserved" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Quantity Reserved" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="qReservedTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Quantity Available" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Quantity Available" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="qAvailableTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Unit Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Unit Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="uCostTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Total Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="200">
+                <GroupBox Header="Total Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="tCostTextBox"  Margin="5,2"/>
+                </GroupBox>
+                <GroupBox Header="Incoming Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                    <Grid Margin="5,2" >
+                        <DatePicker Name="incoming_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
+                        <DatePicker Name="incoming_DatePicker_2" Width="106" HorizontalAlignment="Right" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Expiration Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                    <Grid Margin="5,2" >
+                        <DatePicker Name="expiration_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
+                        <DatePicker Name="expiration_DatePicker_2" Width="106" HorizontalAlignment="Right" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Last Action Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                    <Grid Margin="5,2" >
+                        <DatePicker Name="lastAction_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
+                        <DatePicker Name="lastAction_DatePicker_2" Width="106" HorizontalAlignment="Right" />
+                    </Grid>
                 </GroupBox>
             </WrapPanel>
 
@@ -86,6 +104,12 @@
                         <Binding Path="Text" ElementName="qAvailableTextBox"/>
                         <Binding Path="Text" ElementName="uCostTextBox"/>
                         <Binding Path="Text" ElementName="tCostTextBox"/>
+                        <Binding Path="SelectedDate" ElementName="incoming_DatePicker_1"/>
+                        <Binding Path="SelectedDate" ElementName="incoming_DatePicker_2"/>
+                        <Binding Path="SelectedDate" ElementName="expiration_DatePicker_1"/>
+                        <Binding Path="SelectedDate" ElementName="expiration_DatePicker_2"/>
+                        <Binding Path="SelectedDate" ElementName="lastAction_DatePicker_1"/>
+                        <Binding Path="SelectedDate" ElementName="lastAction_DatePicker_2"/>
 
                     </MultiBinding>
                 </Button.CommandParameter>

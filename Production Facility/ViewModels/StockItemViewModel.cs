@@ -73,6 +73,7 @@ namespace Production_Facility.ViewModels
                     unit = "";
                     break;
             }
+
             var key = (string)values[2];
             var name = (string)values[3];
             var location = (string)values[4];
@@ -83,6 +84,54 @@ namespace Production_Facility.ViewModels
             var uCost = (string)values[9];
             var tCost = (string)values[10];
 
+            //string incomDate_1, incomDate_2;
+
+            //if (values[11] == null)
+            //{
+            //    incomDate_1 = "";
+            //}
+            //else
+            //{
+            //    var incomDate_11 = (DateTime)values[11];
+            //    incomDate_1 = incomDate_11.ToString("yyyy-MM-dd");
+            //}
+
+            //if (values[12] == null)
+            //{
+            //    incomDate_2 = "";
+            //}
+            //else
+            //{
+            //    var incomDate_22 = (DateTime)values[12];
+            //    incomDate_2 = incomDate_22.ToString("yyyy-MM-dd");
+            //}
+
+
+
+            //MessageBox.Show(incomDate_1);
+
+
+
+
+
+
+
+
+
+
+            //incomDate_1.ToShortDateString();
+            //MessageBox.Show(incomDate_1.ToShortDateString());
+            //if (values[12] != null)
+            //{
+            //    var incomDate_2 = (DateTime)values[12];
+            //    incomDate_2.ToShortDateString();
+            //}
+            //else
+            //{
+            //    var incomDate_2 = (string)values[12];
+            //}
+
+
 
             var queryBuilder = new StringBuilder();
             queryBuilder.Append("SELECT * FROM StockItems ");
@@ -91,8 +140,7 @@ namespace Production_Facility.ViewModels
 
             for (int i = 0; i < values.Count(); i++)
             {
-
-                if (!string.IsNullOrEmpty(values[i].ToString()))
+                if (!string.IsNullOrEmpty(values[i]!=null ? values[i].ToString() : "" ))
                     switch (i)
                     {
                         case (0):
@@ -294,11 +342,116 @@ namespace Production_Facility.ViewModels
                                 }
                             }
                             break;
+                        case (11):
+
+                            var incomDate_11 = (DateTime)values[11];
+                            string incomDate_1 = incomDate_11.ToString("yyyy-MM-dd");
+
+                            if (values[12] == null)
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE IncomingDate = '" + incomDate_1 + "'");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND IncomingDate = '" + incomDate_1 + "'");
+                                }
+                                MessageBox.Show(queryBuilder.ToString());
+                            }
+                            else
+                            {
+                                var incomDate_22 = (DateTime)values[12];
+                                string incomDate_2 = incomDate_22.ToString("yyyy-MM-dd");
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE IncomingDate BETWEEN '" + incomDate_1 + "' AND '" + incomDate_2 + "' ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND IncomingDate BETWEEN '" + incomDate_1 + "' AND '" + incomDate_2 + "' ");
+                                }
+                            }
+                            break;
+                        case (13):
+
+                            var expirDate_11 = (DateTime)values[13];
+                            string expirDate_1 = expirDate_11.ToString("yyyy-MM-dd");
+
+                            if (values[14] == null)
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE ExpirationDate = '" + expirDate_1 + "'");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND ExpirationDate = '" + expirDate_1 + "'");
+                                }
+                                MessageBox.Show(queryBuilder.ToString());
+                            }
+                            else
+                            {
+                                var expirDate_22 = (DateTime)values[14];
+                                string expirDate_2 = expirDate_22.ToString("yyyy-MM-dd");
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE ExpirationDate BETWEEN '" + expirDate_1 + "' AND '" + expirDate_2 + "' ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND ExpirationDate BETWEEN '" + expirDate_1 + "' AND '" + expirDate_2 + "' ");
+                                }
+                            }
+                            break;
+                        case (15):
+
+                            var actionDate_11 = (DateTime)values[15];
+                            string actionDate_1 = actionDate_11.ToString("yyyy-MM-dd");
+
+                            if (values[16] == null)
+                            {
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE LastActionDate = '" + actionDate_1 + "'");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND LastActionDate = '" + actionDate_1 + "'");
+                                }
+                                MessageBox.Show(queryBuilder.ToString());
+                            }
+                            else
+                            {
+                                var actionDate_22 = (DateTime)values[16];
+                                string actionDate_2 = actionDate_22.ToString("yyyy-MM-dd");
+
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE LastActionDate BETWEEN '" + actionDate_1 + "' AND '" + actionDate_2 + "' ");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND LastActionDate BETWEEN '" + actionDate_1 + "' AND '" + actionDate_2 + "' ");
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+
                     }
             }
 
             string s = queryBuilder.ToString();
-            //MessageBox.Show(s);
+            MessageBox.Show(s);
             var stockItems = dbContext.StockItems.SqlQuery(s).ToList();
 
             StockItems = stockItems;
