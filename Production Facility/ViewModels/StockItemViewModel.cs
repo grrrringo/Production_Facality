@@ -358,7 +358,6 @@ namespace Production_Facility.ViewModels
                                 {
                                     queryBuilder.Append(" AND IncomingDate = '" + incomDate_1 + "'");
                                 }
-                                MessageBox.Show(queryBuilder.ToString());
                             }
                             else
                             {
@@ -392,7 +391,6 @@ namespace Production_Facility.ViewModels
                                 {
                                     queryBuilder.Append(" AND ExpirationDate = '" + expirDate_1 + "'");
                                 }
-                                MessageBox.Show(queryBuilder.ToString());
                             }
                             else
                             {
@@ -419,14 +417,13 @@ namespace Production_Facility.ViewModels
                             {
                                 if (!isBuildingStarted)
                                 {
-                                    queryBuilder.Append("WHERE LastActionDate = '" + actionDate_1 + "'");
+                                    queryBuilder.Append("WHERE LastActionDate = '@" + actionDate_1 + "@'");
                                     isBuildingStarted = true;
                                 }
                                 else
                                 {
                                     queryBuilder.Append(" AND LastActionDate = '" + actionDate_1 + "'");
                                 }
-                                MessageBox.Show(queryBuilder.ToString());
                             }
                             else
                             {

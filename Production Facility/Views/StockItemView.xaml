@@ -49,9 +49,6 @@
                 <GroupBox Header="Name" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="nameTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
-                    <TextBox Name="locationTextBox"  Margin="5,2"/>
-                </GroupBox>
                 <GroupBox Header="Batch" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
                     <TextBox Name="batchTextBox"  Margin="5,2"/>
                 </GroupBox>
@@ -87,6 +84,9 @@
                         <DatePicker Name="lastAction_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
                         <DatePicker Name="lastAction_DatePicker_2" Width="106" HorizontalAlignment="Right" />
                     </Grid>
+                </GroupBox>
+                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                    <TextBox Name="locationTextBox"  Margin="5,2"/>
                 </GroupBox>
             </WrapPanel>
 
