@@ -15,7 +15,6 @@ namespace Production_Facility.ViewModels
     {
         FacilityDBContext dbContext = new FacilityDBContext();
 
-
         private string name = "Asortyment";
         public string Name
         {
@@ -33,7 +32,7 @@ namespace Production_Facility.ViewModels
 
         public ICommand DataGridLoader { get; set; }
 
-        private void QueryBuildHelper (StringBuilder queryBuilder, bool isBuildingStarted, string x, object obj, object nextObj)
+        private void QueryBuildHelper (StringBuilder queryBuilder, bool isBuildingStarted, object obj, object nextObj, string x)
         {
             if (x=="Unit" || x=="Number" || x=="Name" || x=="Location" || x=="Batch")
             {
@@ -170,43 +169,43 @@ namespace Production_Facility.ViewModels
                             isBuildingStarted = true;
                             break;
                         case (1):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "Unit", values[i], values[i+1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Unit");
                             break;
                         case (2):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "Number", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Number");
                             break;
                         case (3):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "Name", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Name");
                             break;
                         case (4):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "Location", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Location");
                             break;
                         case (5):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "Batch", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Batch");
                             break;
                         case (6):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "QuantityTotal", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QuantityTotal");
                             break;
                         case (7):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "QuantityReserved", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QuantityReserved");
                             break;
                         case (8):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "QuantityAvailable", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QuantityAvailable");
                             break;
                         case (9):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "UnitCost", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "UnitCost");
                             break;
                         case (10):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "TotalCost", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "TotalCost");
                             break;
                         case (11):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "IncomingDate", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "IncomingDate");
                             break;
                         case (13):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "ExpirationDate", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "ExpirationDate");
                             break;
                         case (15):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, "LastActionDate", values[i], values[i + 1]);
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "LastActionDate");
                             break;
                         default:
                             break;
@@ -240,7 +239,6 @@ namespace Production_Facility.ViewModels
                 stockItems = value;
                 OnPropertyChanged("StockItems");
             }
-
         }
     }
 

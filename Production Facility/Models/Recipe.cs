@@ -32,6 +32,24 @@ namespace Production_Facility.Models
 
         public RecipeLine recipeLine;
 
+        public List<RecipeLine> GetRecipe (FacilityDBContext context, string key)
+        {
+            var list = new List<RecipeLine>();
+
+            var recipe = (from q in context.Recipes where q.RecipeOwner == key select q).FirstOrDefault<Recipe>();
+
+            var line = recipe.RecipeComposition.Split('|');
+
+            foreach(string pozycja in line)
+            {
+                var cut = pozycja.Split('=');
+                var newRecipeline = new RecipeLine(int.Parse(cut[0]), cut[1], cut[2], double.Parse(cut[3]));
+                list.Add(newRecipeline);
+
+            }
+            return list;
+        }
+
         public class RecipeLine
         {
             public int RecipeLine_Nr { get; set; }

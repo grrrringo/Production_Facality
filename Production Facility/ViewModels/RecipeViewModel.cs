@@ -71,9 +71,7 @@ namespace Production_Facility.ViewModels
 
                     lista.Add(newRecipeLine);
                 }
-
                 ItemRecipe = lista;
-                //OnPropertyChanged("ItemRecipe");
             }
         }
 

@@ -19,6 +19,9 @@
         <DataTemplate x:Name="recipe" DataType="{x:Type viewmodels:RecipeViewModel}">
             <views:RecipeView/>
         </DataTemplate>
+        <DataTemplate x:Name="prodOrder" DataType="{x:Type viewmodels:ProductionOrderViewModel}">
+            <views:ProductionOrderView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -41,7 +44,13 @@
                 </TreeViewItem>
             </TreeViewItem>
             <TreeViewItem Header="PRODUKCJA" Style="{StaticResource TreeView_HeaderStyle}" IsExpanded="True">
-                <TreeViewItem Header="Nowe zlecenie"/>
+                <TreeViewItem Header="Nowe zlecenie">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Selected">
+                            <i:InvokeCommandAction Command="{Binding ProductionOrderCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TreeViewItem>
                 <TreeViewItem Header="Receptury">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Selected">

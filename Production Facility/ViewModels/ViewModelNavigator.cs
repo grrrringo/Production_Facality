@@ -14,6 +14,7 @@ namespace Production_Facility.ViewModels
         public ICommand ItemCommand { get; set; }
         public ICommand StockItemCommand { get; set; }
         public ICommand RecipeCommand { get; set; }
+        public ICommand ProductionOrderCommand { get; set; }
 
 
         private object selectedViewModel;
@@ -32,6 +33,12 @@ namespace Production_Facility.ViewModels
             ItemCommand = new RelayCommand(SetItemVM);
             StockItemCommand = new RelayCommand(SetStockItemVM);
             RecipeCommand = new RelayCommand(SetRecipeVM);
+            ProductionOrderCommand = new RelayCommand(SetProductionOrderVM);
+        }
+
+        private void SetProductionOrderVM(object obj)
+        {
+            SelectedViewModel = new ProductionOrderViewModel();
         }
 
         public void SetStockItemVM(object obj)

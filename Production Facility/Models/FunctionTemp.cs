@@ -131,7 +131,6 @@ namespace Production_Facility.Models
 
         public void RecipeReader(Dictionary<string, Recipe> bazaReceptur, FacilityDBContext context)
         {
-            //string[] recipeLine = new string[4];
 
             while ((line = zReceptur.ReadLine()) != null)
             {

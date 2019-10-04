@@ -11,9 +11,6 @@
     <UserControl.DataContext>
         <vm:RecipeViewModel/>
     </UserControl.DataContext>
-    <!--<UserControl.InputBindings>
-        <KeyBinding Command="{input:CommandBinding EditCommand}" Key="Execute"/>
-    </UserControl.InputBindings>-->
 
     <Border Margin="10" BorderBrush="Black" BorderThickness="3" CornerRadius="10" >
         <Grid Margin="10">
@@ -24,14 +21,6 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10" FontSize="20" Text="{Binding Name}" Foreground="Blue" FontWeight="Bold"/>
             <DockPanel Grid.Row="1">
-                <!--<TextBox Name="recipeOwner_textBox" FontSize="15" Width="200" HorizontalAlignment="Left" Margin="10" >
-                    <TextBox.InputBindings>
-                        <KeyBinding 
-                            Key="Enter" 
-                            Command="{Binding ComboBoxLoader}" 
-                            CommandParameter="{Binding Path=Text, ElementName=recipeOwner_textBox}"/>
-                    </TextBox.InputBindings>
-                </TextBox>-->
                 <ComboBox Name="comboBox" SelectedIndex="0"  Width="250" Height="23" IsTextSearchEnabled="True" IsEditable="True" HorizontalAlignment="Left" Margin="10" ItemsSource="{Binding UserChoice}" TextSearch.TextPath="Number">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -56,7 +45,7 @@
                     </ComboBox.InputBindings>
                 
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
+                        <i:EventTrigger EventName="DropDownClosed">
                             <i:InvokeCommandAction Command="{Binding DataGridLoader}" CommandParameter="{Binding ElementName=comboBox, Path=Text}"/>
                         </i:EventTrigger>
                         <i:EventTrigger EventName="SourceUpdated">
