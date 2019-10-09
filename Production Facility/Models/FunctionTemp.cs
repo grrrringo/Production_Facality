@@ -129,89 +129,89 @@ namespace Production_Facility.Models
         //    doNowejBazyItem.Close();
         //}
 
-        public void RecipeReader(Dictionary<string, Recipe> bazaReceptur, FacilityDBContext context)
-        {
+        //public void RecipeReader(Dictionary<string, Recipe> bazaReceptur, FacilityDBContext context)
+        //{
 
-            while ((line = zReceptur.ReadLine()) != null)
-            {
-                cutLine = line.Split('\t');
-                string number = cutLine[0];
+        //    while ((line = zReceptur.ReadLine()) != null)
+        //    {
+        //        cutLine = line.Split('\t');
+        //        string number = cutLine[0];
 
-                if (context.Recipes.Any(xx => xx.RecipeOwner == number))
-                {
-                    if (!bazaReceptur.ContainsKey(cutLine[0]))
-                    {
-                        Recipe nowaReceptura = new Recipe(cutLine[0]);
+        //        if (context.Recipes.Any(xx => xx.RecipeOwner == number))
+        //        {
+        //            if (!bazaReceptur.ContainsKey(cutLine[0]))
+        //            {
+        //                Recipe nowaReceptura = new Recipe(cutLine[0]);
 
-                        if (cutLine[1] == "Struktura recepturowa")
-                        {
+        //                if (cutLine[1] == "Struktura recepturowa")
+        //                {
 
-                            nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[7]));
-                            nowaReceptura.ItemRecipe.Add(nowaReceptura.recipeLine);
+        //                    nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[7]));
+        //                    nowaReceptura.ItemRecipe.Add(nowaReceptura.recipeLine);
 
-                            bazaReceptur.Add(cutLine[0], nowaReceptura);
-                        }
+        //                    bazaReceptur.Add(cutLine[0], nowaReceptura);
+        //                }
 
-                        else
-                        {
-                            nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[4]));
-                            nowaReceptura.ItemRecipe.Add(nowaReceptura.recipeLine);
+        //                else
+        //                {
+        //                    nowaReceptura.recipeLine = new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[4]));
+        //                    nowaReceptura.ItemRecipe.Add(nowaReceptura.recipeLine);
 
-                            bazaReceptur.Add(cutLine[0], nowaReceptura);
-                        }
-                    }
-                    else
-                    {
-                        if (cutLine[1] == "Struktura recepturowa")
-                        {
-                            bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[7])));
-                        }
-                        else
-                        {
-                            bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[4])));
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("wtf");
-                }
+        //                    bazaReceptur.Add(cutLine[0], nowaReceptura);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (cutLine[1] == "Struktura recepturowa")
+        //                {
+        //                    bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[7])));
+        //                }
+        //                else
+        //                {
+        //                    bazaReceptur[cutLine[0]].ItemRecipe.Add(new Recipe.RecipeLine(int.Parse(cutLine[2]), cutLine[3], cutLine[6], double.Parse(cutLine[4])));
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("wtf");
+        //        }
 
-            }
+        //    }
 
-            foreach (KeyValuePair<string, Recipe> pozycja in bazaReceptur)
-            {
-                StringBuilder sb = new StringBuilder();
+        //    foreach (KeyValuePair<string, Recipe> pozycja in bazaReceptur)
+        //    {
+        //        StringBuilder sb = new StringBuilder();
 
-                foreach (Recipe.RecipeLine line in pozycja.Value.ItemRecipe)
-                {
-                    sb.Append(line.RecipeLine_Nr.ToString() + '=' + line.RecipeLine_Key + '=' + line.RecipeLine_Name + '=' + line.RecipeLine_Amount.ToString() + '|');
-                }
-                sb.Remove(sb.Length - 1, 1);
-                pozycja.Value.RecipeComposition = sb.ToString();
-            }
+        //        foreach (Recipe.RecipeLine line in pozycja.Value.ItemRecipe)
+        //        {
+        //            sb.Append(line.RecipeLine_Nr.ToString() + '=' + line.RecipeLine_Key + '=' + line.RecipeLine_Name + '=' + line.RecipeLine_Amount.ToString() + '|');
+        //        }
+        //        sb.Remove(sb.Length - 1, 1);
+        //        pozycja.Value.RecipeComposition = sb.ToString();
+    //}
 
-            //WYCIĘTE Z MAIN WINDOW (OPERACJE NA TABELI RECIPE
+    //WYCIĘTE Z MAIN WINDOW (OPERACJE NA TABELI RECIPE
 
 
-            //// REMOVE from Recipes table
-            //foreach(Recipe pozycja in context.Recipes)
-            //{
-            //    context.Recipes.Remove(pozycja);
-            //}
+    //// REMOVE from Recipes table
+    //foreach(Recipe pozycja in context.Recipes)
+    //{
+    //    context.Recipes.Remove(pozycja);
+    //}
 
-            //context.SaveChanges();
+    //context.SaveChanges();
 
-            // ADD to Recipes table
+    // ADD to Recipes table
 
-            //foreach (KeyValuePair<string, Recipe> pozycja in bazaReceptur)
-            //{
-            //    context.Recipes.Add(pozycja.Value);
+    //foreach (KeyValuePair<string, Recipe> pozycja in bazaReceptur)
+    //{
+    //    context.Recipes.Add(pozycja.Value);
 
-            //}
-            //context.SaveChanges();
-            //}
+    //}
+    //context.SaveChanges();
+    //}
 
-        }
+//}
     }
 }

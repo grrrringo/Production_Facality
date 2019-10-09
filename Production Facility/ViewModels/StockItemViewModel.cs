@@ -63,7 +63,7 @@ namespace Production_Facility.ViewModels
                 }
             }
 
-            else if (x == "QuantityTotal" || x == "QuantityReserved" || x == "QuantityAvailable" || x== "UnitCost" || x=="TotalCost")
+            else if (x == "QTotal" || x == "QReserved" || x == "QAvailable" || x== "UnitCost" || x=="TotalCost")
             {
                 var y = (string)obj;
 
@@ -184,13 +184,13 @@ namespace Production_Facility.ViewModels
                             QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Batch");
                             break;
                         case (6):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QuantityTotal");
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QTotal");
                             break;
                         case (7):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QuantityReserved");
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QReserved");
                             break;
                         case (8):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QuantityAvailable");
+                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QAvailable");
                             break;
                         case (9):
                             QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "UnitCost");

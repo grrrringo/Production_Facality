@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -48,6 +49,34 @@ namespace Production_Facility.Models
 
             }
             return list;
+        }
+
+        public ObservableCollection<RecipeLine> GetRecipe(string recipeComposition)
+        {
+            var list = new ObservableCollection<RecipeLine>();
+
+            var line = recipeComposition.Split('|');
+
+            foreach (string pozycja in line)
+            {
+                var cut = pozycja.Split('=');
+                var newRecipeline = new RecipeLine(int.Parse(cut[0]), cut[1], cut[2], double.Parse(cut[3]));
+                list.Add(newRecipeline);
+
+            }
+            return list;
+        }
+
+        public string GetRecipeComposition(ObservableCollection<Recipe.RecipeLine> recipeLines )
+        {
+            var sb = new StringBuilder();
+            foreach(Recipe.RecipeLine line in recipeLines)
+            {
+                sb.Append(line.RecipeLine_Nr.ToString() + '=' + line.RecipeLine_Key + '=' + line.RecipeLine_Name + '=' + line.RecipeLine_Amount +'|');
+            }
+            sb.Remove(sb.Length - 1, 1);
+
+            return sb.ToString();
         }
 
         public class RecipeLine

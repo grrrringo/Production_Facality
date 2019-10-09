@@ -36,6 +36,13 @@ namespace Production_Facility
             InitializeComponent();
             DataContext = new ViewModelNavigator();
 
+            foreach (StockItem si in context.StockItems.ToList())
+            {
+                si.QAvailable = si.QTotal;
+                si.QReserved = 0;
+            }
+            context.SaveChanges();
+
         }
     }
 }

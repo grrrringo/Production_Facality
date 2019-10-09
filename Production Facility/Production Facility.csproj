@@ -83,7 +83,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ProductionOrder.cs" />
+    <Compile Include="ViewModels\Commands\LoadOrderCommand.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveOrderCommand.cs" />
     <Compile Include="ViewModels\Converters\MultiBidingConverter.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\ProductionOrderViewModel.cs" />

@@ -24,11 +24,12 @@ namespace Production_Facility.Models
 
         public SectionType Section { get; set; }
 
-        public decimal QuantityTotal { get; set; }
+        public double QTotal { get; set; }
 
-        public decimal QuantityReserved { get; set; }
+        public double QReserved { get; set; }
 
-        public decimal QuantityAvailable { get; set; }
+        public double QAvailable { get; set; }
+
 
         public decimal UnitCost { get; set; }
 
@@ -44,16 +45,21 @@ namespace Production_Facility.Models
 
         public string BatchNumber { get; set; }
 
+        //public StockItem(string number, string qTotal,)
+        //{
+
+        //}
+
         public StockItem(string number, string name, string qTotal, string location, string uCost,
             string laDate, string inDate, string exDate, string unit)
         {
             this.Number = number;
             this.Name = name;
-            this.QuantityTotal = decimal.Parse(qTotal);
-            this.QuantityAvailable = this.QuantityTotal;
+            this.QTotal = double.Parse(qTotal);
+            this.QAvailable = this.QTotal;
             this.Location = location;
             this.UnitCost = decimal.Parse(uCost);
-            this.TotalCost = this.UnitCost * this.QuantityTotal;
+            this.TotalCost = UnitCost * (Convert.ToDecimal(QTotal));
             this.LastActionDate = DateTime.Parse(laDate);
             this.IncomingDate = DateTime.Parse(inDate);
 
