@@ -126,6 +126,7 @@
                             <Binding Path="Text" ElementName="itemName"/>
                             <Binding Path="Text" ElementName="quantityTextBox"/>
                             <Binding Path="Text" ElementName="unit_TextBox"/>
+                            <Binding Path="Text" ElementName="id_TextBox"/>
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>

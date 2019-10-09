@@ -156,6 +156,7 @@ namespace Production_Facility.ViewModels
             var quantityTemp = (string)obj[2];
             var quantity = Convert.ToDecimal(quantityTemp);
             var unit = (string)obj[3];
+            var orderiD = (string)obj[4];
             
             var tCost = new decimal();
             foreach(Recipe.RecipeLine line in order)
@@ -164,6 +165,7 @@ namespace Production_Facility.ViewModels
                 var xxx = dbContext.StockItems.Where(xx => xx.Number == line.RecipeLine_Key).FirstOrDefault<StockItem>(); //Where(xx => xx.QuantityAvailable <= qAvailable)
                 MessageBox.Show(xxx.StockItem_ID.ToString());
                 xxx.QTotal = xxx.QTotal - line.RecipeLine_Amount;
+                xxx.QAvailable = xxx.QTotal;
                 tCost += xxx.UnitCost * Convert.ToDecimal(line.RecipeLine_Amount);
                 dbContext.SaveChanges();
             }

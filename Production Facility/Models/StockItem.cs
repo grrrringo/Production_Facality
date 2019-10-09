@@ -51,7 +51,7 @@ namespace Production_Facility.Models
         //}
 
         public StockItem(string number, string name, string qTotal, string location, string uCost,
-            string laDate, string inDate, string exDate, string unit)
+            string laDate, string inDate, string exDate, string unit,string batch)
         {
             this.Number = number;
             this.Name = name;
@@ -104,8 +104,7 @@ namespace Production_Facility.Models
                 MessageBox.Show(unit);
             }
 
-            //Item item = context.Items.First(x => x.Number == this.Number);
-            //this.Section = item.Section;
+            this.BatchNumber = "PO/"+"0"*(6-batch.Length)+batch;
 
 
         }
