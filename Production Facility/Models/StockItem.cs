@@ -103,8 +103,8 @@ namespace Production_Facility.Models
             {
                 MessageBox.Show(unit);
             }
-
-            this.BatchNumber = "PO/"+"0"*(6-batch.Length)+batch;
+            var batch_temp = String.Concat(Enumerable.Repeat("0", 6 - batch.Length));
+            this.BatchNumber = "PO/"+ batch_temp + batch;
 
 
         }

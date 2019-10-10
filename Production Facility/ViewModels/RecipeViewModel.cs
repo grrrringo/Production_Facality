@@ -12,7 +12,7 @@ namespace Production_Facility.ViewModels
 {
     public class RecipeViewModel : INotifyPropertyChanged
     {
-        FacilityDBContext dbContext = new FacilityDBContext();
+        
 
         private ObservableCollection<Recipe.RecipeLine> lista = new ObservableCollection<Recipe.RecipeLine>();
 
@@ -39,40 +39,48 @@ namespace Production_Facility.ViewModels
 
         public void SetComboBox (object obj)
         {
-            string s = obj as string;
+            using(FacilityDBContext dbContext = new FacilityDBContext())
+            {
+                string s = obj as string;
 
-            List<Item> entities = (from q in dbContext.Items
-                                   from x in dbContext.Recipes
-                                   where q.Name.Contains(s)
-                                   where x.RecipeOwner == q.Number
-                                   select q).ToList();
+                List<Item> entities = (from q in dbContext.Items
+                                       from x in dbContext.Recipes
+                                       where q.Name.Contains(s)
+                                       where x.RecipeOwner == q.Number
+                                       select q).ToList();
 
-            UserChoice = entities;
+                UserChoice = entities;
+            }
+            
         }
 
         public void SetRecipe(object obj)
         {
-            string s = obj as string;
-
-            var recipe = (from xx in dbContext.Recipes
-                           where xx.RecipeOwner == s
-                           select xx).FirstOrDefault<Recipe>();
-
-            if (recipe != null)
+            using (FacilityDBContext dbContext = new FacilityDBContext())
             {
-                lista.Clear();
+                string s = obj as string;
 
-                string[] temp = recipe.RecipeComposition.Split('|');
+                var recipe = (from xx in dbContext.Recipes
+                              where xx.RecipeOwner == s
+                              select xx).FirstOrDefault<Recipe>();
 
-                foreach (string str in temp)
+                if (recipe != null)
                 {
-                    string[] cut = str.Split('=');
-                    Recipe.RecipeLine newRecipeLine = new Recipe.RecipeLine(int.Parse(cut[0]), cut[1], cut[2], double.Parse(cut[3]));
+                    lista.Clear();
 
-                    lista.Add(newRecipeLine);
+                    string[] temp = recipe.RecipeComposition.Split('|');
+
+                    foreach (string str in temp)
+                    {
+                        string[] cut = str.Split('=');
+                        Recipe.RecipeLine newRecipeLine = new Recipe.RecipeLine(int.Parse(cut[0]), cut[1], cut[2], double.Parse(cut[3]));
+
+                        lista.Add(newRecipeLine);
+                    }
+                    ItemRecipe = lista;
                 }
-                ItemRecipe = lista;
             }
+                
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

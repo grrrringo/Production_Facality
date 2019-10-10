@@ -13,7 +13,7 @@ namespace Production_Facility.ViewModels
 {
     public class StockItemViewModel : INotifyPropertyChanged
     {
-        FacilityDBContext dbContext = new FacilityDBContext();
+        
 
         private string name = "Asortyment";
         public string Name
@@ -132,91 +132,95 @@ namespace Production_Facility.ViewModels
 
         public void SetStockItems(object obj)
         {
-            var values = (object[])obj;
-
-            bool isBuildingStarted = false;
-
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append("SELECT * FROM StockItems ");
-
-            for (int i = 0; i < values.Count(); i++)
+            using (FacilityDBContext dbContext = new FacilityDBContext())
             {
-                if (!string.IsNullOrEmpty(values[i]!=null ? values[i].ToString() : "" ))
-                    switch (i)
-                    {
-                        case (0):
-                            var section = (string)values[0];
-                            switch (section)
-                            {
-                                case ("Product"):
-                                    section = "0";
-                                    break;
-                                case ("Intermediate"):
-                                    section = "1";
-                                    break;
-                                case ("Substance"):
-                                    section = "2";
-                                    break;
-                                case ("Article"):
-                                    section = "3";
-                                    break;
-                                default:
-                                    section = "";
-                                    break;
-                            }
+                var values = (object[])obj;
 
-                            queryBuilder.Append("WHERE Section LIKE '%" + section + "%'");
-                            isBuildingStarted = true;
-                            break;
-                        case (1):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Unit");
-                            break;
-                        case (2):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Number");
-                            break;
-                        case (3):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Name");
-                            break;
-                        case (4):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Location");
-                            break;
-                        case (5):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Batch");
-                            break;
-                        case (6):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QTotal");
-                            break;
-                        case (7):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QReserved");
-                            break;
-                        case (8):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QAvailable");
-                            break;
-                        case (9):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "UnitCost");
-                            break;
-                        case (10):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "TotalCost");
-                            break;
-                        case (11):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "IncomingDate");
-                            break;
-                        case (13):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "ExpirationDate");
-                            break;
-                        case (15):
-                            QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "LastActionDate");
-                            break;
-                        default:
-                            break;
-                    }
+                bool isBuildingStarted = false;
+
+                var queryBuilder = new StringBuilder();
+                queryBuilder.Append("SELECT * FROM StockItems ");
+
+                for (int i = 0; i < values.Count(); i++)
+                {
+                    if (!string.IsNullOrEmpty(values[i] != null ? values[i].ToString() : ""))
+                        switch (i)
+                        {
+                            case (0):
+                                var section = (string)values[0];
+                                switch (section)
+                                {
+                                    case ("Product"):
+                                        section = "0";
+                                        break;
+                                    case ("Intermediate"):
+                                        section = "1";
+                                        break;
+                                    case ("Substance"):
+                                        section = "2";
+                                        break;
+                                    case ("Article"):
+                                        section = "3";
+                                        break;
+                                    default:
+                                        section = "";
+                                        break;
+                                }
+
+                                queryBuilder.Append("WHERE Section LIKE '%" + section + "%'");
+                                isBuildingStarted = true;
+                                break;
+                            case (1):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Unit");
+                                break;
+                            case (2):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Number");
+                                break;
+                            case (3):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Name");
+                                break;
+                            case (4):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Location");
+                                break;
+                            case (5):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "Batch");
+                                break;
+                            case (6):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QTotal");
+                                break;
+                            case (7):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QReserved");
+                                break;
+                            case (8):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "QAvailable");
+                                break;
+                            case (9):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "UnitCost");
+                                break;
+                            case (10):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "TotalCost");
+                                break;
+                            case (11):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "IncomingDate");
+                                break;
+                            case (13):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "ExpirationDate");
+                                break;
+                            case (15):
+                                QueryBuildHelper(queryBuilder, isBuildingStarted, values[i], values[i + 1], "LastActionDate");
+                                break;
+                            default:
+                                break;
+                        }
+                }
+
+                string s = queryBuilder.ToString();
+                MessageBox.Show(s);
+                var stockItems = dbContext.StockItems.SqlQuery(s).ToList();
+
+                StockItems = stockItems;
             }
-
-            string s = queryBuilder.ToString();
-            MessageBox.Show(s);
-            var stockItems = dbContext.StockItems.SqlQuery(s).ToList();
-
-            StockItems = stockItems;
+            
         }
 
         private List<StockItem> stockItems;

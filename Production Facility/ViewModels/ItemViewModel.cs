@@ -13,7 +13,7 @@ namespace Production_Facility.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged
     {
-        FacilityDBContext dbContext = new FacilityDBContext();
+        
 
         private string name = "Indeksy";
         public string Name
@@ -47,104 +47,108 @@ namespace Production_Facility.ViewModels
 
         public void SetItems(object obj)
         {
-            var values = (object[])obj;
-
-            var section = (string)values[0];
-            switch (section)
+            using (FacilityDBContext dbContext = new FacilityDBContext())
             {
-                case ("Product"):
-                    section = "0";
-                    break;
-                case ("Intermediate"):
-                    section = "1";
-                    break;
-                case ("Substance"):
-                    section = "2";
-                    break;
-                case ("Article"):
-                    section = "3";
-                    break;
-                default:
-                    section = "";
-                    break;
-            }
+                var values = (object[])obj;
 
-            var unit = (string)values[1];
-            switch (unit)
-            {
-                case ("szt"):
-                    unit = "0";
-                    break;
-                case ("kg"):
-                    unit = "1";
-                    break;
-                case ("m"):
-                    unit = "2";
-                    break;
-                default:
-                    unit = "";
-                    break;
-            }
-            var key = (string)values[2];
-            var name = (string)values[3];
+                var section = (string)values[0];
+                switch (section)
+                {
+                    case ("Product"):
+                        section = "0";
+                        break;
+                    case ("Intermediate"):
+                        section = "1";
+                        break;
+                    case ("Substance"):
+                        section = "2";
+                        break;
+                    case ("Article"):
+                        section = "3";
+                        break;
+                    default:
+                        section = "";
+                        break;
+                }
 
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append("SELECT * FROM Items ");
+                var unit = (string)values[1];
+                switch (unit)
+                {
+                    case ("szt"):
+                        unit = "0";
+                        break;
+                    case ("kg"):
+                        unit = "1";
+                        break;
+                    case ("m"):
+                        unit = "2";
+                        break;
+                    default:
+                        unit = "";
+                        break;
+                }
+                var key = (string)values[2];
+                var name = (string)values[3];
 
-            bool isBuildingStarted = false;
+                var queryBuilder = new StringBuilder();
+                queryBuilder.Append("SELECT * FROM Items ");
 
-            for (int i = 0; i < values.Count(); i++)
-            {
+                bool isBuildingStarted = false;
 
-                if (!string.IsNullOrEmpty(values[i].ToString()))
-                    switch (i)
-                    {
-                        case (0):
-                            queryBuilder.Append("WHERE Section LIKE '%"+section+"%'");
-                            isBuildingStarted = true;
-                            break;
-                        case (1):
-                            if (!isBuildingStarted)
-                            {
-                                queryBuilder.Append("WHERE Unit LIKE '%" + unit + "%'");
+                for (int i = 0; i < values.Count(); i++)
+                {
+
+                    if (!string.IsNullOrEmpty(values[i].ToString()))
+                        switch (i)
+                        {
+                            case (0):
+                                queryBuilder.Append("WHERE Section LIKE '%" + section + "%'");
                                 isBuildingStarted = true;
-                            }
-                            else
-                            {
-                                queryBuilder.Append(" AND Unit LIKE '%" + unit + "%'");
-                            }
-                            break;
-                        case (2):
-                            if (!isBuildingStarted)
-                            {
-                                queryBuilder.Append("WHERE Number LIKE '%" + key + "%'");
-                                isBuildingStarted = true;
-                            }
-                            else
-                            {
-                                queryBuilder.Append(" AND Number LIKE '%" + key + "%'");
-                            }
-                            break;
-                        case (3):
-                            if (!isBuildingStarted)
-                            {
-                                queryBuilder.Append("WHERE Name LIKE '%" + name + "%'");
-                            }
-                            else
-                            {
-                                queryBuilder.Append(" AND Name LIKE '%" + name + "%'");
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                                break;
+                            case (1):
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE Unit LIKE '%" + unit + "%'");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND Unit LIKE '%" + unit + "%'");
+                                }
+                                break;
+                            case (2):
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE Number LIKE '%" + key + "%'");
+                                    isBuildingStarted = true;
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND Number LIKE '%" + key + "%'");
+                                }
+                                break;
+                            case (3):
+                                if (!isBuildingStarted)
+                                {
+                                    queryBuilder.Append("WHERE Name LIKE '%" + name + "%'");
+                                }
+                                else
+                                {
+                                    queryBuilder.Append(" AND Name LIKE '%" + name + "%'");
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                }
+
+                string s = queryBuilder.ToString();
+
+                var items = dbContext.Items.SqlQuery(s).ToList();
+
+                Items = items;
             }
-
-            string s = queryBuilder.ToString();
-
-            var items = dbContext.Items.SqlQuery(s).ToList();
-
-            Items = items;
+            
         }
 
         private List<Item> items;

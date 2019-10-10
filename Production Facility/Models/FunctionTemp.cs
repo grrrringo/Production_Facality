@@ -55,28 +55,28 @@ namespace Production_Facility.Models
             }
         }
 
-        public void TotenReader(List<StockItem> bazaStockItem, FacilityDBContext context)
-        {
-            while ((line = zTotena.ReadLine()) != null)
-            {
-                cutLine = line.Split('\t');
-                string number = cutLine[0];
+        //public void TotenReader(List<StockItem> bazaStockItem, FacilityDBContext context)
+        //{
+        //    while ((line = zTotena.ReadLine()) != null)
+        //    {
+        //        cutLine = line.Split('\t');
+        //        string number = cutLine[0];
 
-                if (context.Items.Any(xx => xx.Number == number))
-                {
-                    StockItem sItem = new StockItem(cutLine[0], cutLine[1], cutLine[2], cutLine[3],
-                            cutLine[4], cutLine[5], cutLine[6], cutLine[8], cutLine[7]);
+        //        if (context.Items.Any(xx => xx.Number == number))
+        //        {
+        //            StockItem sItem = new StockItem(cutLine[0], cutLine[1], cutLine[2], cutLine[3],
+        //                    cutLine[4], cutLine[5], cutLine[6], cutLine[8], cutLine[7]);
 
-                    bazaStockItem.Add(sItem);
-                }
-                else
-                {
-                    StreamWriter brakWbazie = new StreamWriter("C:/Temp/BrakiWBazie3.csv", true);
-                    brakWbazie.WriteLine(cutLine[0] + '\t' + cutLine[1] + '\t' + cutLine[2]);
-                    brakWbazie.Close();
-                }
-            }
-        }
+        //            bazaStockItem.Add(sItem);
+        //        }
+        //        else
+        //        {
+        //            StreamWriter brakWbazie = new StreamWriter("C:/Temp/BrakiWBazie3.csv", true);
+        //            brakWbazie.WriteLine(cutLine[0] + '\t' + cutLine[1] + '\t' + cutLine[2]);
+        //            brakWbazie.Close();
+        //        }
+        //    }
+        //}
 
         public void RecepturReader(SortedDictionary<string, Item> bazaDanych, FacilityDBContext context)
         {
@@ -107,13 +107,8 @@ namespace Production_Facility.Models
                         Item item = new Item(cutLine[0], cutLine[5], SectionType.Article);
                         bazaDanych.Add(cutLine[0], item);
                     }
-
-
                 }
-
-
             }
-
         }
 
 
