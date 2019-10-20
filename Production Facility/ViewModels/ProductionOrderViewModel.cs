@@ -63,9 +63,11 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        private string name = "Zlecenie Produkcyjne";
+        private string name = "Zlecenie Produkcyjne"; 
         private ICommand _LoadOrderCommand;
         private ICommand _ProdOrderChosenCommand;
+        private ICommand _SaveOrderCommand;
+        private ICommand _ComboBoxLoader;
 
         public string Name
         {
@@ -132,6 +134,7 @@ namespace Production_Facility.ViewModels
                     line.RecipeLine_Amount = line.RecipeLine_Amount * quantity;
                     Order.Add(line);
                 }
+
             }
                 
         }
@@ -144,7 +147,13 @@ namespace Production_Facility.ViewModels
 
                 string date = ((DateTime)values[2]).ToShortDateString();
 
-                if (values[3] == null)
+                //bool isDate = DateTime.TryParse(values[2].ToString(),out )
+
+                int orderID;
+
+                bool isInt = Int32.TryParse(values[3].ToString(),out orderID);
+
+                if (!isInt)
                 {
                     MessageBox.Show("if");
                     dbContext.ProductionOrders.Add(new ProductionOrder(values[0].ToString(), Convert.ToInt32(values[1]), date, recipe.GetRecipeComposition(order)));
@@ -153,7 +162,7 @@ namespace Production_Facility.ViewModels
                 else
                 {
                     MessageBox.Show("else");
-                    var orderID = Convert.ToInt32(values[3]);
+                    //var orderID = Convert.ToInt32(values[3]);
 
                     var order = dbContext.ProductionOrders.Where(xx => xx.OrderID == orderID).FirstOrDefault<ProductionOrder>();
                     order.OrderComposition = recipe.GetRecipeComposition(Order);
@@ -226,7 +235,17 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        public ICommand ComboBoxLoader { get; set; }
+        public ICommand ComboBoxLoader //{ get; set; }
+        {
+            get
+            {
+                if (_ComboBoxLoader == null)
+                {
+                    _ComboBoxLoader = new RelayCommand(SetComboBox); 
+                }
+                return _ComboBoxLoader;
+            }
+        }
 
         public ICommand OrdersParamsLoader { get; set; }
 
@@ -241,14 +260,26 @@ namespace Production_Facility.ViewModels
                 return _LoadOrderCommand;
             }
         }
-        public ICommand SaveOrderCommand { get; set; }
-        
+        public ICommand SaveOrderCommand
+        {
+            get
+            {
+                if (_SaveOrderCommand == null)
+                {
+                    _SaveOrderCommand = new RelayCommand(SaveOrder);
+    }
+                return _SaveOrderCommand;
+            }
+        }
 
         public ICommand ProduceOrderCommand { get; set; }
 
         private bool Can_ProdOrderChosen_Execute(object parameter)
         {
-            return true;
+            if (productionOrder != null)
+                return true;
+            else
+                return false;
         }
 
         private bool Can_SetDataGrid_Execute(object parameter)
@@ -276,9 +307,7 @@ namespace Production_Facility.ViewModels
         }
         public ProductionOrderViewModel()
         {
-            ComboBoxLoader = new RelayCommand(SetComboBox);
             OrdersParamsLoader = new RelayCommand(SetOrdersParams);
-            SaveOrderCommand = new RelayCommand(SaveOrder);
             ProduceOrderCommand = new RelayCommand(ProduceOrder);
         }
 

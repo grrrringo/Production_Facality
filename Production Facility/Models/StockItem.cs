@@ -45,11 +45,6 @@ namespace Production_Facility.Models
 
         public string BatchNumber { get; set; }
 
-        //public StockItem(string number, string qTotal,)
-        //{
-
-        //}
-
         public StockItem(string number, string name, string qTotal, string location, string uCost,
             string laDate, string inDate, string exDate, string unit,string batch)
         {
@@ -72,20 +67,6 @@ namespace Production_Facility.Models
                 //MessageBox.Show(name + '\n' + "=>" + exDate + "<=");
                 this.ExpirationDate = null;
             }
-
-            //if (exDate == "")
-            //{
-            //    this.ExpirationDate = null;
-            //}
-            //else if (exDate != "")
-            //{
-            //    this.ExpirationDate = DateTime.Parse(exDate);
-            //}
-
-            //else
-            //{
-            //    MessageBox.Show("=>"+exDate+"<=");
-            //}
 
             if (unit == "szt")
             {

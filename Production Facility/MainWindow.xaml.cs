@@ -23,26 +23,18 @@ namespace Production_Facility
     /// </summary>
     public partial class MainWindow : Window
     {
-        SortedDictionary<string, Item> bazaDanych = new SortedDictionary<string, Item>();
-        Dictionary<string, Recipe> bazaReceptur = new Dictionary<string, Recipe>();
+        //SortedDictionary<string, Item> bazaDanych = new SortedDictionary<string, Item>();
+        //Dictionary<string, Recipe> bazaReceptur = new Dictionary<string, Recipe>();
         //SortedDictionary<string, StockItem> bazaStockItem = new SortedDictionary<string, StockItem>();
         //List<StockItem> listaSI = new List<StockItem>();
-        FunctionTemp ft = new FunctionTemp();
+        //FunctionTemp ft = new FunctionTemp();
 
-        FacilityDBContext context = new FacilityDBContext();
+        //FacilityDBContext context = new FacilityDBContext();
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new ViewModelNavigator();
-
-            foreach (StockItem si in context.StockItems.ToList())
-            {
-                si.QAvailable = si.QTotal;
-                si.QReserved = 0;
-            }
-            context.SaveChanges();
-
         }
     }
 }

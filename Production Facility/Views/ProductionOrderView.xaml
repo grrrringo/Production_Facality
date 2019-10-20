@@ -21,10 +21,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10" FontSize="20" Text="{Binding Name}" Foreground="Blue" FontWeight="Bold"/>
-            <ComboBox Name="mainComboBox"   ItemsSource="{Binding POrders}" SelectedItem="{Binding ProductionOrder}"  IsEnabled="True" >
+            <ComboBox Grid.Row="1" Name="mainComboBox" Height="20" ItemsSource="{Binding POrders}" SelectedItem="{Binding ProductionOrder}" IsEnabled="True" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -52,7 +53,7 @@
                 </i:Interaction.Triggers>
             </ComboBox>
             
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
                 <GroupBox Header="Item Key" Width="250">
                     <ComboBox Name="comboBox" MinWidth="240" Text="{Binding ProductionOrder.ItemKey}" Height="23" IsTextSearchEnabled="True" IsEditable="True" HorizontalAlignment="Left" ItemsSource="{Binding UserChoice}" TextSearch.TextPath="Number">
                         <ComboBox.ItemTemplate>
@@ -109,7 +110,7 @@
                     </Button.CommandParameter>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" Grid.Row="3">
                 <GroupBox Header="Item Name" Width="250" IsEnabled="false">
                     <TextBox Name="itemName" Text="{Binding Item.Name}" />
                 </GroupBox>
@@ -131,7 +132,7 @@
                     </Button.CommandParameter>
                 </Button>
             </StackPanel>
-            <DataGrid ItemsSource="{Binding Order}" Grid.Row="3"/>
+            <DataGrid ItemsSource="{Binding Order}" Grid.Row="4"/>
         </Grid>
     </Border>
 </UserControl>

@@ -10,50 +10,50 @@ namespace Production_Facility.Models
 {
     public class FunctionTemp
     {
-        StreamReader zBazy = new StreamReader("C:/Temp/Z4.csv", Encoding.GetEncoding("UTF-8"));
-        StreamReader zReceptur = new StreamReader("C:/Temp/SSP.csv", Encoding.GetEncoding("UTF-8"));
-        StreamReader zTotena = new StreamReader("C:/Temp/TOTEN.csv", Encoding.GetEncoding("UTF-8"));
+        //StreamReader zBazy = new StreamReader("C:/Temp/Z4.csv", Encoding.GetEncoding("UTF-8"));
+        //StreamReader zReceptur = new StreamReader("C:/Temp/SSP.csv", Encoding.GetEncoding("UTF-8"));
+        //StreamReader zTotena = new StreamReader("C:/Temp/TOTEN.csv", Encoding.GetEncoding("UTF-8"));
         //StreamWriter doNowejBazyItem = new StreamWriter("C:/Temp/NowaBazaItem.csv");
 
         //public Dictionary<string, List<string[]>> bazaReceptur = new Dictionary<string, List<string[]>>();
-        public Dictionary<string, Recipe> bazaReceptur = new Dictionary<string, Recipe>();
-        FacilityDBContext context = new FacilityDBContext();
+        //public Dictionary<string, Recipe> bazaReceptur = new Dictionary<string, Recipe>();
+        //FacilityDBContext context = new FacilityDBContext();
         //SortedDictionary<string, Item> baza;
 
-        string line;
-        string[] cutLine;
+        //string line;
+        //string[] cutLine;
 
-        public void BaseReader(SortedDictionary<string, Item> bazaDanych)
-        {
-            while ((line = zBazy.ReadLine()) != null)
-            {
-                cutLine = line.Split('\t');
+        //public void BaseReader(SortedDictionary<string, Item> bazaDanych)
+        //{
+        //    while ((line = zBazy.ReadLine()) != null)
+        //    {
+        //        cutLine = line.Split('\t');
 
-                if (!bazaDanych.ContainsKey(cutLine[3]))
-                {
-                    if (cutLine[3].Contains("W-") && cutLine[3].Length > 13)
-                    {
-                        Item item = new Item(cutLine[3], cutLine[2], SectionType.Product);
-                        bazaDanych.Add(cutLine[3], item);
-                    }
-                    else if (cutLine[3].Contains("W-") && cutLine[3].Length <= 13 && cutLine[3] != "W-PD002-A0000")
-                    {
-                        Item item = new Item(cutLine[3], cutLine[2], SectionType.Intermediate);
-                        bazaDanych.Add(cutLine[3], item);
-                    }
-                    else if (cutLine[3].Contains("SU") || cutLine[3] == "W-PD002-A0000")
-                    {
-                        Item item = new Item(cutLine[3], cutLine[2], SectionType.Substance);
-                        bazaDanych.Add(cutLine[3], item);
-                    }
-                    else
-                    {
-                        Item item = new Item(cutLine[3], cutLine[2], SectionType.Article);
-                        bazaDanych.Add(cutLine[3], item);
-                    }
-                }
-            }
-        }
+        //        if (!bazaDanych.ContainsKey(cutLine[3]))
+        //        {
+        //            if (cutLine[3].Contains("W-") && cutLine[3].Length > 13)
+        //            {
+        //                Item item = new Item(cutLine[3], cutLine[2], SectionType.Product);
+        //                bazaDanych.Add(cutLine[3], item);
+        //            }
+        //            else if (cutLine[3].Contains("W-") && cutLine[3].Length <= 13 && cutLine[3] != "W-PD002-A0000")
+        //            {
+        //                Item item = new Item(cutLine[3], cutLine[2], SectionType.Intermediate);
+        //                bazaDanych.Add(cutLine[3], item);
+        //            }
+        //            else if (cutLine[3].Contains("SU") || cutLine[3] == "W-PD002-A0000")
+        //            {
+        //                Item item = new Item(cutLine[3], cutLine[2], SectionType.Substance);
+        //                bazaDanych.Add(cutLine[3], item);
+        //            }
+        //            else
+        //            {
+        //                Item item = new Item(cutLine[3], cutLine[2], SectionType.Article);
+        //                bazaDanych.Add(cutLine[3], item);
+        //            }
+        //        }
+        //    }
+        //}
 
         //public void TotenReader(List<StockItem> bazaStockItem, FacilityDBContext context)
         //{
@@ -78,38 +78,38 @@ namespace Production_Facility.Models
         //    }
         //}
 
-        public void RecepturReader(SortedDictionary<string, Item> bazaDanych, FacilityDBContext context)
-        {
-            while ((line = zReceptur.ReadLine()) != null)
-            {
-                cutLine = line.Split('\t');
-                string number = cutLine[0];
+        //public void RecepturReader(SortedDictionary<string, Item> bazaDanych, FacilityDBContext context)
+        //{
+        //    while ((line = zReceptur.ReadLine()) != null)
+        //    {
+        //        cutLine = line.Split('\t');
+        //        string number = cutLine[0];
 
-                if (!bazaDanych.ContainsKey(cutLine[0]) && !context.Items.Any(xx => xx.Number == number))
-                {
-                    if (cutLine[0].Contains("W-") && cutLine[0].Length > 13)
-                    {
-                        Item item = new Item(cutLine[0], cutLine[5], SectionType.Product);
-                        bazaDanych.Add(cutLine[0], item);
-                    }
-                    else if (cutLine[0].Contains("W-") && cutLine[0].Length <= 13 && cutLine[0] != "W-PD002-A0000")
-                    {
-                        Item item = new Item(cutLine[0], cutLine[5], SectionType.Intermediate);
-                        bazaDanych.Add(cutLine[0], item);
-                    }
-                    else if (cutLine[0].Contains("SU") || cutLine[0] == "W-PD002-A0000")
-                    {
-                        Item item = new Item(cutLine[0], cutLine[5], SectionType.Substance);
-                        bazaDanych.Add(cutLine[0], item);
-                    }
-                    else
-                    {
-                        Item item = new Item(cutLine[0], cutLine[5], SectionType.Article);
-                        bazaDanych.Add(cutLine[0], item);
-                    }
-                }
-            }
-        }
+        //        if (!bazaDanych.ContainsKey(cutLine[0]) && !context.Items.Any(xx => xx.Number == number))
+        //        {
+        //            if (cutLine[0].Contains("W-") && cutLine[0].Length > 13)
+        //            {
+        //                Item item = new Item(cutLine[0], cutLine[5], SectionType.Product);
+        //                bazaDanych.Add(cutLine[0], item);
+        //            }
+        //            else if (cutLine[0].Contains("W-") && cutLine[0].Length <= 13 && cutLine[0] != "W-PD002-A0000")
+        //            {
+        //                Item item = new Item(cutLine[0], cutLine[5], SectionType.Intermediate);
+        //                bazaDanych.Add(cutLine[0], item);
+        //            }
+        //            else if (cutLine[0].Contains("SU") || cutLine[0] == "W-PD002-A0000")
+        //            {
+        //                Item item = new Item(cutLine[0], cutLine[5], SectionType.Substance);
+        //                bazaDanych.Add(cutLine[0], item);
+        //            }
+        //            else
+        //            {
+        //                Item item = new Item(cutLine[0], cutLine[5], SectionType.Article);
+        //                bazaDanych.Add(cutLine[0], item);
+        //            }
+        //        }
+        //    }
+        //}
 
 
 

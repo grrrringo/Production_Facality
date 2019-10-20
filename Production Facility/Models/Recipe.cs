@@ -18,7 +18,7 @@ namespace Production_Facility.Models
 
         public string RecipeComposition { get; set; }
 
-        public List<RecipeLine> ItemRecipe = new List<RecipeLine>();
+        //public List<RecipeLine> ItemRecipe = new List<RecipeLine>();
 
         
 
@@ -62,7 +62,6 @@ namespace Production_Facility.Models
                 var cut = pozycja.Split('=');
                 var newRecipeline = new RecipeLine(int.Parse(cut[0]), cut[1], cut[2], double.Parse(cut[3]));
                 list.Add(newRecipeline);
-
             }
             return list;
         }
