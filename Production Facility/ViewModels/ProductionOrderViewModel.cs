@@ -32,25 +32,27 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        private List<ProductionOrder> pOrders;
+        private ObservableCollection<ProductionOrder> _AllOrders;
 
-        public List<ProductionOrder> POrders
+        public ObservableCollection<ProductionOrder> AllOrders // var myObservableCollection = new ObservableCollection<YourType>(myIEnumerable);
         {
             get
 
             {
                 using (FacilityDBContext dbContext = new FacilityDBContext())
                 {
-                    return pOrders = dbContext.ProductionOrders.Where(q => q.OrderStatus == "PLANNED").ToList();
+                    return _AllOrders = new ObservableCollection<ProductionOrder>(dbContext.ProductionOrders.Where(q => q.OrderStatus == "PLANNED"));
+                    //return _AllOrders = dbContext.ProductionOrders.Where(q => q.OrderStatus == "PLANNED").ToList();
                 }
 
             }
             set
             {
-                pOrders = value;
+                _AllOrders = value;
+                OnPropertyChanged("AllOrders");
             }
         }
-        
+
 
         private Item item;
         public Item Item
@@ -63,11 +65,7 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        private string name = "Zlecenie Produkcyjne"; 
-        private ICommand _LoadOrderCommand;
-        private ICommand _ProdOrderChosenCommand;
-        private ICommand _SaveOrderCommand;
-        private ICommand _ComboBoxLoader;
+        private string name = "Zlecenie Produkcyjne";
 
         public string Name
         {
@@ -78,13 +76,68 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        public void SetComboBox(object obj)
+        // ======================================== ORDER FROM mainComboBox CHOSEN (MEMBER GROUP) ===============================================================
+
+        private ICommand _OrderChosen_Command;
+
+        public ICommand OrderChosen_Command
+        {
+            get
+            {
+                if (_OrderChosen_Command == null)
+                {
+                    _OrderChosen_Command = new RelayCommand(OrderChosen, Can_OrderChosen_Execute);
+                }
+                return _OrderChosen_Command;
+            }
+        }
+
+        public void OrderChosen(object obj)
+        {
+            using (FacilityDBContext dbContext = new FacilityDBContext())
+            {
+                int orderID = Convert.ToInt32((string)obj);
+
+                if (Order != null)
+                    Order.Clear();
+                Order = recipe.GetRecipe(productionOrder.OrderComposition);
+                ProductionOrder = dbContext.ProductionOrders.Where(q => q.OrderID == orderID).SingleOrDefault<ProductionOrder>();
+                Item = dbContext.Items.Where(i => i.Number == productionOrder.ItemKey).FirstOrDefault<Item>();
+            }
+
+        }
+
+        private bool Can_OrderChosen_Execute(object obj)
+        {
+            if (productionOrder != null)
+                return true;
+            else
+                return false;
+        }
+
+        // ========================================= FILL searchComboBox (MEMBER GROUP) ===============================================================
+
+        private ICommand _Fill_SearchComboBox_Command;
+
+        public ICommand Fill_SearchComboBox_Command
+        {
+            get
+            {
+                if (_Fill_SearchComboBox_Command == null)
+                {
+                    _Fill_SearchComboBox_Command = new RelayCommand(Fill_SearchComboBox);
+                }
+                return _Fill_SearchComboBox_Command;
+            }
+        }
+
+        public void Fill_SearchComboBox(object obj)
         {
             using (FacilityDBContext dbContext = new FacilityDBContext())
             {
                 string s = obj as string;
 
-                List<Item> entities = (from q in dbContext.Items
+                var entities = (from q in dbContext.Items
                                        from x in dbContext.Recipes
                                        where q.Name.Contains(s)
                                        where x.RecipeOwner == q.Number
@@ -94,7 +147,23 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        public void SetOrdersParams(object obj)
+        // ========================================= ITEM FROM searchComboBox CHOSEN (MEMBER GROUP) ===============================================================
+
+        private ICommand _ItemChosen_Command;
+
+        public ICommand ItemChosen_Command
+        {
+            get
+            {
+                if (_ItemChosen_Command == null)
+                {
+                    _ItemChosen_Command = new RelayCommand(ItemChosen);
+                }
+                return _ItemChosen_Command;
+            }
+        }
+
+        public void ItemChosen(object obj)
         {
             using (FacilityDBContext dbContext = new FacilityDBContext())
             {
@@ -102,10 +171,26 @@ namespace Production_Facility.ViewModels
 
                 Item = (from q in dbContext.Items where q.Number == s select q).FirstOrDefault<Item>();
             }
-                
+
         }
 
-        public void SetDataGrid (object obj)
+        // ========================================= STARTING NEW ORDER (MEMBER GROUP) ===============================================================
+
+        private ICommand _LoadOrderCommand;
+
+        public ICommand LoadOrderCommand
+        {
+            get
+            {
+                if (_LoadOrderCommand == null)
+                {
+                    _LoadOrderCommand = new RelayCommand(SetDataGrid, Can_SetDataGrid_Execute);
+                }
+                return _LoadOrderCommand;
+            }
+        }
+
+        public void SetDataGrid(object obj)
         {
             using (FacilityDBContext dbContext = new FacilityDBContext())
             {
@@ -136,150 +221,6 @@ namespace Production_Facility.ViewModels
                 }
 
             }
-                
-        }
-
-        public void SaveOrder (object parameter)
-        {
-            using (FacilityDBContext dbContext = new FacilityDBContext())
-            {
-                var values = (object[])parameter;
-
-                string date = ((DateTime)values[2]).ToShortDateString();
-
-                //bool isDate = DateTime.TryParse(values[2].ToString(),out )
-
-                int orderID;
-
-                bool isInt = Int32.TryParse(values[3].ToString(),out orderID);
-
-                if (!isInt)
-                {
-                    MessageBox.Show("if");
-                    dbContext.ProductionOrders.Add(new ProductionOrder(values[0].ToString(), Convert.ToInt32(values[1]), date, recipe.GetRecipeComposition(order)));
-                    dbContext.SaveChanges();
-                }
-                else
-                {
-                    MessageBox.Show("else");
-                    //var orderID = Convert.ToInt32(values[3]);
-
-                    var order = dbContext.ProductionOrders.Where(xx => xx.OrderID == orderID).FirstOrDefault<ProductionOrder>();
-                    order.OrderComposition = recipe.GetRecipeComposition(Order);
-                    order.Quantity = ProductionOrder.Quantity;
-                    order.PlannedDate = ProductionOrder.PlannedDate;
-                    dbContext.SaveChanges();
-                }
-            }
-                
-        }
-
-        public void ProduceOrder(object parameter)
-        {
-            using (FacilityDBContext dbContext = new FacilityDBContext())
-            {
-                var obj = (object[])parameter;
-
-                var key = (string)obj[0];
-                var name = (string)obj[1];
-                var quantityTemp = (string)obj[2];
-                var quantity = Convert.ToDecimal(quantityTemp);
-                var unit = (string)obj[3];
-                var orderiD = (string)obj[4];
-
-                var tCost = new decimal();
-                foreach (Recipe.RecipeLine line in order)
-                {
-                    var qAvailable = Convert.ToDecimal(line.RecipeLine_Amount);
-                    var xxx = dbContext.StockItems.Where(xx => xx.Number == line.RecipeLine_Key).FirstOrDefault<StockItem>(); //Where(xx => xx.QuantityAvailable <= qAvailable)
-                    MessageBox.Show(xxx.StockItem_ID.ToString());
-                    xxx.QTotal = xxx.QTotal - line.RecipeLine_Amount;
-                    xxx.QAvailable = xxx.QTotal;
-                    xxx.LastActionDate = DateTime.Now;
-                    tCost += xxx.UnitCost * Convert.ToDecimal(line.RecipeLine_Amount);
-                    dbContext.SaveChanges();
-                }
-                var uCost = tCost / quantity;
-                var orderID_temp = Convert.ToInt32(orderiD);
-                var prOrder = dbContext.ProductionOrders.Where(q => q.OrderID == orderID_temp).FirstOrDefault<ProductionOrder>();
-                prOrder.OrderStatus = "COMPLETED";
-                prOrder.ProductionDate = DateTime.Now;
-                var newStockItem = new StockItem(key, name, quantity.ToString(), "WR-PR-WG", uCost.ToString(), DateTime.Now.ToString(), DateTime.Now.ToString(), DateTime.Now.AddYears(2).ToString(), unit, orderiD);
-                dbContext.StockItems.Add(newStockItem);
-                dbContext.SaveChanges();
-            }
-                
-        }
-        public void ProdOrderChosen(object obj)
-        {
-            using (FacilityDBContext dbContext = new FacilityDBContext())
-            {
-                string orderID = (string)obj;
-
-                if (Order != null)
-                    Order.Clear();
-                Order = recipe.GetRecipe(productionOrder.OrderComposition);
-                Item = dbContext.Items.Where(i => i.Number == productionOrder.ItemKey).FirstOrDefault<Item>();
-            }
-                
-        }
-        public ICommand ProdOrderChosenCommand
-        {
-            get
-            {
-                if (_ProdOrderChosenCommand == null)
-                {
-                    _ProdOrderChosenCommand = new RelayCommand(ProdOrderChosen, Can_ProdOrderChosen_Execute);
-    }
-                return _ProdOrderChosenCommand;
-            }
-        }
-
-        public ICommand ComboBoxLoader //{ get; set; }
-        {
-            get
-            {
-                if (_ComboBoxLoader == null)
-                {
-                    _ComboBoxLoader = new RelayCommand(SetComboBox); 
-                }
-                return _ComboBoxLoader;
-            }
-        }
-
-        public ICommand OrdersParamsLoader { get; set; }
-
-        public ICommand LoadOrderCommand
-        {
-            get
-            {
-                if (_LoadOrderCommand == null)
-                {
-                    _LoadOrderCommand = new RelayCommand(SetDataGrid, Can_SetDataGrid_Execute);
-                }
-                return _LoadOrderCommand;
-            }
-        }
-        public ICommand SaveOrderCommand
-        {
-            get
-            {
-                if (_SaveOrderCommand == null)
-                {
-                    _SaveOrderCommand = new RelayCommand(SaveOrder);
-    }
-                return _SaveOrderCommand;
-            }
-        }
-
-        public ICommand ProduceOrderCommand { get; set; }
-
-        private bool Can_ProdOrderChosen_Execute(object parameter)
-        {
-            if (productionOrder != null)
-                return true;
-            else
-                return false;
         }
 
         private bool Can_SetDataGrid_Execute(object parameter)
@@ -303,12 +244,167 @@ namespace Production_Facility.ViewModels
                     return false;
                 }
             }
+        }
+
+        // ========================================= SAVING NEW ORDER (MEMBER GROUP) ===============================================================
+
+        private ICommand _SaveOrder_Command;
+
+        public ICommand SaveOrder_Command
+        {
+            get
+            {
+                if (_SaveOrder_Command == null)
+                {
+                    _SaveOrder_Command = new RelayCommand(SaveOrder,Can_SaveOrder_Execute);
+                }
+                return _SaveOrder_Command;
+            }
+        }
+
+        public void SaveOrder(object obj)
+        {
+            using (FacilityDBContext dbContext = new FacilityDBContext())
+            {
+                var values = (object[])obj;
+
+                DateTime date = ((DateTime)values[2]);
+
+                int orderID;
+
+                bool isInt = Int32.TryParse(values[3].ToString(), out orderID);
+
+                if (!isInt)
+                {
+                    MessageBox.Show("if");
+                    ProductionOrder = dbContext.ProductionOrders.Add(new ProductionOrder(values[0].ToString(), Convert.ToInt32(values[1]), date, recipe.GetRecipeComposition(Order)));
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("else");
+                    var order = dbContext.ProductionOrders.Where(xx => xx.OrderID == orderID).FirstOrDefault<ProductionOrder>();
+                    order.OrderComposition = recipe.GetRecipeComposition(Order);
+                    order.Quantity = ProductionOrder.Quantity;
+                    order.PlannedDateTime = ProductionOrder.PlannedDateTime;
+                    dbContext.SaveChanges();
+                }
+            }
+        }
+
+        public bool Can_SaveOrder_Execute(object obj)
+        {
+            return true;
+            //var values = (object[])obj;
+
+            //if (values == null)
+            //    return false;
+            //else if (values!= null && Int32.TryParse(values[3].ToString(),out int orderID))
+            //{
+            //    if(ProductionOrder != AllOrders.Where(q => q.OrderID == orderID).SingleOrDefault<ProductionOrder>())
+            //        return true;
+            //    return false;
+
+            //}
+                
+            
+            //else
+            //    return false;
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private ICommand _ProduceOrderCommand;
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+        public void ProduceOrder(object parameter)
+        {
+            using (FacilityDBContext dbContext = new FacilityDBContext())
+            {
+                var obj = (object[])parameter;
+
+                var key = (string)obj[0];
+                var name = (string)obj[1];
+                var quantityTemp = (string)obj[2];
+                var quantity = Convert.ToDecimal(quantityTemp);
+                var unit = (string)obj[3];
+                var orderiD = (string)obj[4];
+
+                var tCost = new decimal();
+                foreach (Recipe.RecipeLine line in Order)
+                {
+                    var qAvailable = Convert.ToDecimal(line.RecipeLine_Amount);
+                    var xxx = dbContext.StockItems.Where(xx => xx.Number == line.RecipeLine_Key).FirstOrDefault<StockItem>(); 
+
+                    xxx.QTotal = xxx.QTotal - line.RecipeLine_Amount;
+                    xxx.QAvailable = xxx.QTotal;
+                    xxx.LastActionDate = DateTime.Now;
+                    tCost += xxx.UnitCost * Convert.ToDecimal(line.RecipeLine_Amount);
+                    dbContext.SaveChanges();
+                }
+                var uCost = tCost / quantity;
+                var orderID_temp = Convert.ToInt32(orderiD);
+                var prOrder = dbContext.ProductionOrders.Where(q => q.OrderID == orderID_temp).FirstOrDefault<ProductionOrder>();
+                prOrder.OrderStatus = "COMPLETED";
+                prOrder.ProductionDate = DateTime.Now;
+                var newStockItem = new StockItem(key, name, quantity.ToString(), "WR-PR-WG", uCost.ToString(), DateTime.Now.ToString(), DateTime.Now.ToString(), DateTime.Now.AddYears(2).ToString(), unit, orderiD);
+                dbContext.StockItems.Add(newStockItem);
+                dbContext.SaveChanges();
+            }
                 
         }
+
+
+
+
+
+
+
+
+
+
+        public ICommand ProduceOrderCommand 
+        {
+            get
+            {
+                if (_ProduceOrderCommand == null)
+                {
+                    _ProduceOrderCommand = new RelayCommand(ProduceOrder);
+                }
+                return _ProduceOrderCommand;
+            }
+        }
+
+
+
+
         public ProductionOrderViewModel()
         {
-            OrdersParamsLoader = new RelayCommand(SetOrdersParams);
-            ProduceOrderCommand = new RelayCommand(ProduceOrder);
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -332,7 +428,7 @@ namespace Production_Facility.ViewModels
             }
         }
 
-        private ObservableCollection<Recipe.RecipeLine> order;//= new ObservableCollection<Recipe.RecipeLine>()
+        private ObservableCollection<Recipe.RecipeLine> order;
         public ObservableCollection<Recipe.RecipeLine> Order
         {
             get { return order; }

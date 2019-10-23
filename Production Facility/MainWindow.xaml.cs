@@ -35,6 +35,7 @@ namespace Production_Facility
         {
             InitializeComponent();
             DataContext = new ViewModelNavigator();
+
         }
     }
 }

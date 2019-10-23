@@ -25,7 +25,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10" FontSize="20" Text="{Binding Name}" Foreground="Blue" FontWeight="Bold"/>
-            <ComboBox Grid.Row="1" Name="mainComboBox" Height="20" ItemsSource="{Binding POrders}" SelectedItem="{Binding ProductionOrder}" IsEnabled="True" >
+            <ComboBox Grid.Row="1" Name="mainComboBox" Height="25" ItemsSource="{Binding AllOrders}" SelectedItem="{Binding ProductionOrder}" IsEnabled="True"  >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -37,7 +37,7 @@
                                 <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock HorizontalAlignment="Center" Grid.Column="0" Text="{Binding OrderID}" />
-                            <TextBlock HorizontalAlignment="Center" Grid.Column="1" Text="{Binding PlannedDate}"/>
+                            <TextBlock HorizontalAlignment="Center" Grid.Column="1" Text="{Binding PlannedDateTime,StringFormat=dd.MM.yyyy}"/>
                             <TextBlock HorizontalAlignment="Center" Grid.Column="2" Text="{Binding OrderStatus}"/>
                             <TextBlock HorizontalAlignment="Center" Grid.Column="3" Text="{Binding Quantity}"/>
                             <TextBlock HorizontalAlignment="Left" Grid.Column="4" Text="{Binding ItemKey}"/>
@@ -47,7 +47,7 @@
                 </ComboBox.ItemTemplate>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DropDownClosed">
-                        <i:InvokeCommandAction Command="{Binding ProdOrderChosenCommand}" CommandParameter="{Binding ElementName=id_TextBox, Path=Text}"/>
+                        <i:InvokeCommandAction Command="{Binding OrderChosen_Command}" CommandParameter="{Binding ElementName=id_TextBox, Path=Text}"/>
                     </i:EventTrigger>
 
                 </i:Interaction.Triggers>
@@ -55,7 +55,7 @@
             
             <StackPanel Orientation="Horizontal" Grid.Row="2">
                 <GroupBox Header="Item Key" Width="250">
-                    <ComboBox Name="comboBox" MinWidth="240" Text="{Binding ProductionOrder.ItemKey}" Height="23" IsTextSearchEnabled="True" IsEditable="True" HorizontalAlignment="Left" ItemsSource="{Binding UserChoice}" TextSearch.TextPath="Number">
+                    <ComboBox Name="searchComboBox" MinWidth="240" Text="{Binding ProductionOrder.ItemKey}" Height="23" IsTextSearchEnabled="True" IsEditable="True" HorizontalAlignment="Left" ItemsSource="{Binding UserChoice}" TextSearch.TextPath="Number">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Name="comboBox_stackPanel">
@@ -73,12 +73,12 @@
                         <ComboBox.InputBindings>
                             <KeyBinding 
                             Key="Enter" 
-                            Command="{Binding ComboBoxLoader}" 
-                            CommandParameter="{Binding Path=Text, ElementName=comboBox}"/>
+                            Command="{Binding Fill_SearchComboBox_Command}" 
+                            CommandParameter="{Binding Path=Text, ElementName=searchComboBox}"/>
                         </ComboBox.InputBindings>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DropDownClosed">
-                                <i:InvokeCommandAction Command="{Binding OrdersParamsLoader}" CommandParameter="{Binding ElementName=comboBox, Path=Text}"/>
+                                <i:InvokeCommandAction Command="{Binding ItemChosen_Command}" CommandParameter="{Binding ElementName=searchComboBox, Path=Text}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ComboBox>
@@ -86,23 +86,26 @@
                 <GroupBox Header="Quantity" Width="70">
                     <TextBox Name="quantityTextBox" Text="{Binding ProductionOrder.Quantity}" />
                 </GroupBox>
-                <GroupBox Header="Planned Date" Width="100">
-                    <DatePicker Name="planned_DatePicker" SelectedDate="{Binding ProductionOrder.PlannedDate}"/>
+                <GroupBox Header="Planned Date" Width="120">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ProductionOrder.PlannedDateTime,StringFormat=dd.MM.yyyy}" Width="80"/>
+                        <DatePicker Name="planned_DatePicker" Width="32" SelectedDate="{Binding ProductionOrder.PlannedDateTime}" />
+                    </StackPanel>
                 </GroupBox>
                 <Button Width="100" HorizontalAlignment="Left" Height="20" Content="LOAD ORDER" Margin="10" Command="{Binding LoadOrderCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource multiBidingConverter}">
-                            <Binding Path="Text" ElementName="comboBox"/>
+                            <Binding Path="Text" ElementName="searchComboBox"/>
                             <Binding Path="Text" ElementName="quantityTextBox"/>
                             <Binding Path="Text" ElementName="id_TextBox"/>
                             
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>
-                <Button Width="100" HorizontalAlignment="Left" Height="20" Content="SAVE ORDER" Command="{Binding SaveOrderCommand}">
+                <Button Width="100" HorizontalAlignment="Left" Height="20" Content="SAVE ORDER" Command="{Binding SaveOrder_Command}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource multiBidingConverter}">
-                            <Binding Path="Text" ElementName="comboBox"/>
+                            <Binding Path="Text" ElementName="searchComboBox"/>
                             <Binding Path="Text" ElementName="quantityTextBox"/>
                             <Binding Path="SelectedDate" ElementName="planned_DatePicker"/>
                             <Binding Path="Text" ElementName="id_TextBox"/>
@@ -123,7 +126,7 @@
                 <Button Width="100" HorizontalAlignment="Left" Height="20" Content="PRODUCE" FontWeight="Bold" Margin="10" Command="{Binding ProduceOrderCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource multiBidingConverter}">
-                            <Binding Path="Text" ElementName="comboBox"/>
+                            <Binding Path="Text" ElementName="searchComboBox"/>
                             <Binding Path="Text" ElementName="itemName"/>
                             <Binding Path="Text" ElementName="quantityTextBox"/>
                             <Binding Path="Text" ElementName="unit_TextBox"/>

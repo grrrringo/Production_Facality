@@ -21,7 +21,14 @@ namespace Production_Facility.Models
 
         public Nullable <DateTime> OrderDate { get; set; }
 
-        public string PlannedDate { get; set; }
+        public DateTime PlannedDateTime { get; set; }
+
+        //public string PlannedDate
+        //{
+        //    get { return PlannedDateTime.ToShortDateString(); }
+        //    set { } 
+
+        //}
 
         public Nullable <DateTime> ProductionDate { get; set; }
 
@@ -31,11 +38,11 @@ namespace Production_Facility.Models
 
         //public ObservableCollection<Recipe.RecipeLine> Order { get; set; }
 
-        public ProductionOrder(string key, int quantity, string plannedDate, string orderComposition)
+        public ProductionOrder(string key, int quantity, DateTime plannedDate, string orderComposition)
         {
             this.ItemKey = key;
             this.Quantity = quantity;
-            this.PlannedDate = plannedDate;
+            this.PlannedDateTime = plannedDate;
             this.OrderStatus = "PLANNED";
             this.OrderDate = DateTime.Now;
             this.OrderComposition = orderComposition;
