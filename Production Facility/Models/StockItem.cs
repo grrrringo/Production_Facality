@@ -37,7 +37,7 @@ namespace Production_Facility.Models
 
         public DateTime IncomingDate { get; set; }
 
-        public Nullable<DateTime> ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         public DateTime LastActionDate { get; set; }
 

@@ -315,31 +315,7 @@ namespace Production_Facility.ViewModels
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         private ICommand _ProduceOrderCommand;
-        
-        
-
-
-
-
-
-
-
-
-
-
 
         public void ProduceOrder(object parameter)
         {

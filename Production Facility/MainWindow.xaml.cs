@@ -23,19 +23,20 @@ namespace Production_Facility
     /// </summary>
     public partial class MainWindow : Window
     {
-        //SortedDictionary<string, Item> bazaDanych = new SortedDictionary<string, Item>();
+        SortedDictionary<string, Item> bazaDanych = new SortedDictionary<string, Item>();
         //Dictionary<string, Recipe> bazaReceptur = new Dictionary<string, Recipe>();
         //SortedDictionary<string, StockItem> bazaStockItem = new SortedDictionary<string, StockItem>();
         //List<StockItem> listaSI = new List<StockItem>();
         //FunctionTemp ft = new FunctionTemp();
 
-        //FacilityDBContext context = new FacilityDBContext();
+        
+
+        FacilityDBContext context = new FacilityDBContext();
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new ViewModelNavigator();
-
         }
     }
 }
