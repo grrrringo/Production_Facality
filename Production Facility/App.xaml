@@ -13,5 +13,8 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="Blue"/>
         </Style>
+        <Style x:Key="GroupBox_Style" TargetType="GroupBox">
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
     </Application.Resources>
 </Application>

@@ -139,7 +139,7 @@ namespace Production_Facility.ViewModels
                 bool isBuildingStarted = false;
 
                 var queryBuilder = new StringBuilder();
-                queryBuilder.Append("SELECT * FROM StockItems ");
+                queryBuilder.Append("Select * from [Production_Facility.FacilityDBContext].[dbo].[StockItems] si INNER JOIN [Production_Facility.FacilityDBContext].[dbo].[Items] i ON si.NumberRef = i.Number GROUP BY i.Number ");
 
                 for (int i = 0; i < values.Count(); i++)
                 {
@@ -167,7 +167,7 @@ namespace Production_Facility.ViewModels
                                         break;
                                 }
 
-                                queryBuilder.Append("WHERE Section LIKE '%" + section + "%'");
+                                queryBuilder.Append("HAVING i.Section LIKE '%" + section + "%'");
                                 isBuildingStarted = true;
                                 break;
                             case (1):
@@ -216,7 +216,7 @@ namespace Production_Facility.ViewModels
 
                 string s = queryBuilder.ToString();
                 MessageBox.Show(s);
-                var stockItems = dbContext.StockItems.SqlQuery(s).ToList();
+                var stockItems = dbContext.StockItems.SqlQuery(s).ToList();//dbContext.StockItems.Include("Item").ToList(); 
 
                 StockItems = stockItems;
             }

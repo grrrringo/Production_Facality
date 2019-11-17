@@ -334,7 +334,7 @@ namespace Production_Facility.ViewModels
                 foreach (Recipe.RecipeLine line in Order)
                 {
                     var qAvailable = Convert.ToDecimal(line.RecipeLine_Amount);
-                    var xxx = dbContext.StockItems.Where(xx => xx.Number == line.RecipeLine_Key).FirstOrDefault<StockItem>(); 
+                    var xxx = dbContext.StockItems.Where(xx => xx.NumberRef == line.RecipeLine_Key).FirstOrDefault<StockItem>(); 
 
                     xxx.QTotal = xxx.QTotal - line.RecipeLine_Amount;
                     xxx.QAvailable = xxx.QTotal;
@@ -347,7 +347,7 @@ namespace Production_Facility.ViewModels
                 var prOrder = dbContext.ProductionOrders.Where(q => q.OrderID == orderID_temp).FirstOrDefault<ProductionOrder>();
                 prOrder.OrderStatus = "COMPLETED";
                 prOrder.ProductionDate = DateTime.Now;
-                var newStockItem = new StockItem(key, name, quantity.ToString(), "WR-PR-WG", uCost.ToString(), DateTime.Now.ToString(), DateTime.Now.ToString(), DateTime.Now.AddYears(2).ToString(), unit, orderiD);
+                var newStockItem = new StockItem(key, quantity.ToString(), "WR-PR-WG", uCost.ToString(), DateTime.Now.ToString(), DateTime.Now.ToString(), DateTime.Now.AddYears(2).ToString(), orderiD);
                 dbContext.StockItems.Add(newStockItem);
                 dbContext.SaveChanges();
             }

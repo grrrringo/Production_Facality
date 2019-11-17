@@ -37,6 +37,23 @@ namespace Production_Facility
         {
             InitializeComponent();
             DataContext = new ViewModelNavigator();
+
+            //StreamReader sr = new StreamReader(@"C:\Temp\StockItems.csv", Encoding.GetEncoding("UTF-8"));
+            //string line;
+            //string[] cut;
+
+            //while ((line = sr.ReadLine()) != null)
+            //{
+            //    cut = line.Split('\t');
+            //    var newSI = new StockItem(cut[1], cut[5], cut[13], cut[8], cut[12], cut[10], cut[11], null);
+            //    context.StockItems.Add(newSI);
+            //    context.SaveChanges();
+            //}
+            //sr.Close();
+
+            //tempDG.ItemsSource = context.StockItems.ToList();
+
+            //tempDG.ItemsSource = context.StockItems.Include("Item.Number");
         }
     }
 }

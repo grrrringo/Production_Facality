@@ -14,6 +14,7 @@ namespace Production_Facility.Models
     public class Item
     {
         [Key]
+
         public string Number { get; set; }
 
         public string Name { get; set; }
@@ -21,6 +22,8 @@ namespace Production_Facility.Models
         public UnitType Unit { get; set; }
 
         public SectionType Section { get; set; }
+
+        public virtual ICollection<StockItem> StockItems  { get; set; }
 
         public Item(string number, string name, string unit, string section)
         {
@@ -66,6 +69,12 @@ namespace Production_Facility.Models
             this.Number = number;
             this.Name = name;
             this.Section = section;
+        }
+
+        public Item(string number)
+        {
+            this.Number = number;
+
         }
 
         public Item() { }

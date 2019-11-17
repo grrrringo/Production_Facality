@@ -16,15 +16,23 @@ namespace Production_Facility
 
 
 
-        public FacilityDBContext()
-            : base("name=FacilityDBContext")
-        {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<FacilityDBContext, Migrations.Configuration>());
-        }
+        //public FacilityDBContext()
+        //    : base("name=FacilityDBContext")
+        //{
+        //    Database.SetInitializer(new MigrateDatabaseToLatestVersion<FacilityDBContext, Migrations.Configuration>());
+        //}
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<StockItem>()
+            //                //.HasOptional(s => s.StockItem) 
+            //                .HasRequired(ad => ad.Item);
+
+            //modelBuilder.Entity<Item>()
+            //                .HasOptional(s => s.StockItem);
+            //                //.WithRequired(ad => ad.Item);
         }
     }
 }

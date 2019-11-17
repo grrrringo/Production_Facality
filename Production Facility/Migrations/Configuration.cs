@@ -9,9 +9,7 @@ namespace Production_Facility.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "Production_Facility.FacilityDBContext";
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(Production_Facility.FacilityDBContext context)

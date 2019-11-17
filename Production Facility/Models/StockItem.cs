@@ -16,13 +16,9 @@ namespace Production_Facility.Models
         [Key]
         public int StockItem_ID { get; set; }
 
-        public string Number { get; set; }
-
-        public string Name { get; set; }
-
-        public UnitType Unit { get; set; }
-
-        public SectionType Section { get; set; }
+        [ForeignKey("Item")]
+        public string  NumberRef { get; set; }
+        public virtual Item Item { get; set; }
 
         public double QTotal { get; set; }
 
@@ -45,11 +41,14 @@ namespace Production_Facility.Models
 
         public string BatchNumber { get; set; }
 
-        public StockItem(string number, string name, string qTotal, string location, string uCost,
-            string laDate, string inDate, string exDate, string unit,string batch)
+        public StockItem(string number,string qTotal, string location, string uCost,
+            string laDate, string inDate, string exDate, string batch)//string number, string name, string unit,
         {
-            this.Number = number;
-            this.Name = name;
+            //this.Number = number;
+            //this.Name = name;
+            //this.Item = new Item(number);
+            
+            this.NumberRef = number;
             this.QTotal = double.Parse(qTotal);
             this.QAvailable = this.QTotal;
             this.Location = location;
@@ -68,24 +67,33 @@ namespace Production_Facility.Models
                 this.ExpirationDate = null;
             }
 
-            if (unit == "szt")
+            if (batch != null)
             {
-                this.Unit = UnitType.szt;
-            }
-            else if (unit == "kg")
-            {
-                this.Unit = UnitType.kg;
-            }
-            else if (unit == "m")
-            {
-                this.Unit = UnitType.m;
+                var batch_temp = String.Concat(Enumerable.Repeat("0", 6 - batch.Length));
+                this.BatchNumber = "PO/" + batch_temp + batch;
             }
             else
             {
-                MessageBox.Show(unit);
+                this.BatchNumber = String.Format("{0:yyyyMMdd}", this.IncomingDate);
             }
-            var batch_temp = String.Concat(Enumerable.Repeat("0", 6 - batch.Length));
-            this.BatchNumber = "PO/"+ batch_temp + batch;
+
+            //if (unit == "szt")
+            //{
+            //    this.Unit = UnitType.szt;
+            //}
+            //else if (unit == "kg")
+            //{
+            //    this.Unit = UnitType.kg;
+            //}
+            //else if (unit == "m")
+            //{
+            //    this.Unit = UnitType.m;
+            //}
+            //else
+            //{
+            //    MessageBox.Show(unit);
+            //}
+
 
 
         }

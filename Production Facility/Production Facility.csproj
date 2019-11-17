@@ -82,6 +82,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Migrations\201911051439257_FK.cs" />
+    <Compile Include="Migrations\201911051439257_FK.Designer.cs">
+      <DependentUpon>201911051439257_FK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911051825428_virtualItem.cs" />
+    <Compile Include="Migrations\201911051825428_virtualItem.Designer.cs">
+      <DependentUpon>201911051825428_virtualItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ProductionOrder.cs" />
     <Compile Include="ViewModels\Commands\LoadOrderCommand.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
@@ -135,7 +144,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Enum.cs" />
     <Compile Include="Models\FunctionTemp.cs" />
     <Compile Include="Models\Item.cs" />
@@ -154,6 +162,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201911051439257_FK.resx">
+      <DependentUpon>201911051439257_FK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911051825428_virtualItem.resx">
+      <DependentUpon>201911051825428_virtualItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

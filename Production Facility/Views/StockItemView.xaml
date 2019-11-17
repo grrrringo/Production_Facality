@@ -37,55 +37,55 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="10" FontSize="20" Text="{Binding Name}" Foreground="Blue" FontWeight="Bold"/>
             <WrapPanel Orientation="Horizontal" Grid.Row="1" >
-                <GroupBox Header="Section" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Section" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <ComboBox Name="sectionComboBox" ItemsSource="{Binding Source={StaticResource enumSectionType}}" Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Unit" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" >
+                <GroupBox Header="Unit" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <ComboBox Name="unitComboBox" ItemsSource="{Binding Source={StaticResource enumUnitType}}" Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Key" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Key" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="keyTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Name" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Name" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="nameTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Batch" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Batch" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="batchTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Quantity Total" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Quantity Total" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="qTotalTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Quantity Reserved" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Quantity Reserved" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="qReservedTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Quantity Available" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Quantity Available" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="qAvailableTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Unit Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Unit Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="uCostTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Total Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Total Cost" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" BorderThickness="0" Style="{StaticResource GroupBox_Style}"> 
                     <TextBox Name="tCostTextBox"  Margin="5,2"/>
                 </GroupBox>
-                <GroupBox Header="Incoming Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Incoming Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <Grid Margin="5,2" >
                         <DatePicker Name="incoming_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
                         <DatePicker Name="incoming_DatePicker_2" Width="106" HorizontalAlignment="Right" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Expiration Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Expiration Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <Grid Margin="5,2" >
                         <DatePicker Name="expiration_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
                         <DatePicker Name="expiration_DatePicker_2" Width="106" HorizontalAlignment="Right" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Last Action Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Last Action Date" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <Grid Margin="5,2" >
                         <DatePicker Name="lastAction_DatePicker_1" Width="106" HorizontalAlignment="Left"/>
                         <DatePicker Name="lastAction_DatePicker_2" Width="106" HorizontalAlignment="Right" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240">
+                <GroupBox Header="Location" FontWeight="SemiBold" Foreground="DimGray" Margin="5,0" Width="240" Style="{StaticResource GroupBox_Style}">
                     <TextBox Name="locationTextBox"  Margin="5,2"/>
                 </GroupBox>
             </WrapPanel>
@@ -114,7 +114,14 @@
                     </MultiBinding>
                 </Button.CommandParameter>
             </Button>
-            <DataGrid Grid.Row="3" ItemsSource="{Binding StockItems}" Margin="10" AutoGenerateColumns="true"  />
+            <DataGrid Grid.Row="3" ItemsSource="{Binding StockItems}" Margin="10" AutoGenerateColumns="True"  />
+            <!--<DataGrid.Columns>
+                    <DataGridTextColumn Header="QTotal" Binding="{Binding QTotal}" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Item.Name}" Header="Name" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding Item.Number}" Header="Number" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding NumberRef}" Header="NumberRef" IsReadOnly="True" />
+                </DataGrid.Columns>
+            </DataGrid>-->
             <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="Last Action Date" FontWeight="Bold" Binding="{Binding LastActionDate,StringFormat={}{0:yyyy-MM-dd hh:mm}}"></DataGridTextColumn>
                 </DataGrid.Columns>-->
